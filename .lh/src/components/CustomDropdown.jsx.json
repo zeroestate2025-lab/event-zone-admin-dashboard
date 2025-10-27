@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/CustomDropdown.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1748540881405,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1748540881405,
+            "name": "Commit-0",
+            "content": "import { useState } from 'react';\r\nimport '../styles/CustomDropdown.css'; // You'll need to create this CSS file\r\n\r\nfunction CustomDropdown({ label, selectedValue, options, onSelect }) {\r\n  const [isOpen, setIsOpen] = useState(false);\r\n\r\n  const toggleDropdown = () => setIsOpen(!isOpen);\r\n\r\n  const handleSelectOption = (value) => {\r\n    onSelect(value);\r\n    setIsOpen(false);\r\n  };\r\n\r\n  return (\r\n    <div className=\"custom-dropdown-wrapper\">\r\n      <div className=\"dropdown-header\" onClick={toggleDropdown}>\r\n        {selectedValue || label} <span className=\"dropdown-arrow\">▼</span>\r\n      </div>\r\n      {isOpen && (\r\n        <ul className=\"dropdown-options\">\r\n          {options.map((option) => (\r\n            <li\r\n              key={option}\r\n              className=\"dropdown-option\"\r\n              onClick={() => handleSelectOption(option)}\r\n            >\r\n              {option}\r\n            </li>\r\n          ))}\r\n        </ul>\r\n      )}\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default CustomDropdown;"
+        }
+    ]
+}

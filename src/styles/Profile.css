@@ -1,0 +1,195 @@
+.profile {
+    width: 100%;
+    padding: 20px;
+    background-color: #f5f5f5;
+    position: relative;
+    transition: padding 0.3s ease-in-out;
+  }
+  
+  .profile.sidebar-open {
+    padding: 20px;
+  }
+  
+  .profile.sidebar-closed {
+    padding: 20px;
+  }
+  
+  /* Header Section */
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .back-arrow {
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .profile h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Profile Content */
+  .profile-content灊 {
+    overflow-x: auto;
+  }
+  
+  .profile-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #FC9256; /* Primary Orange */
+  }
+  
+  .profile-info h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .info-row span:first-child {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .info-row input,
+  .info-row textarea {
+    width: 60%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .info-row textarea {
+    height: 60px;
+    resize: vertical;
+  }
+  
+  .profile-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  .edit-button,
+  .save-button {
+    background-color: #FC9256; /* Primary Orange */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button:hover,
+  .save-button:hover {
+    background-color: #FF8438; /* Secondary Orange on hover */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .profile {
+      padding: 15px;
+    }
+  
+    .profile h1 {
+      font-size: 20px;
+    }
+  
+    .header-left {
+      gap: 8px;
+    }
+  
+    .back-arrow {
+      font-size: 18px;
+    }
+  
+    .profile-card {
+      padding: 15px;
+    }
+  
+    .profile-info h2 {
+      font-size: 18px;
+    }
+  
+    .info-row input,
+    .info-row textarea {
+      width: 70%;
+      font-size: 12px;
+    }
+  
+    .edit-button,
+    .save-button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .profile {
+      padding: 10px;
+    }
+  
+    .profile h1 {
+      font-size: 18px;
+    }
+  
+    .header-left {
+      gap: 6px;
+    }
+  
+    .back-arrow {
+      font-size: 16px;
+    }
+  
+    .profile-card {
+      padding: 10px;
+    }
+  
+    .profile-info h2 {
+      font-size: 16px;
+    }
+  
+    .info-row {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .info-row input,
+    .info-row textarea {
+      width: 100%;
+      font-size: 12px;
+    }
+  
+    .edit-button,
+    .save-button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  }

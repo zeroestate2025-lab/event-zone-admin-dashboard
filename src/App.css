@@ -1,0 +1,306 @@
+/* Ensure the layout takes full height */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #D3D3D3;
+}
+
+/* Header Styles */
+.app-header {
+  background-color: #FC9256; /* Primary Orange */
+  padding: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1001;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.company-name {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Profile Container */
+.profile-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* Indicate clickable area */
+}
+
+.profile-icon {
+ 
+  background-color: #FC9256; /* Primary Orange */
+  border-radius: 50%;
+  background-image: url('https://source.unsplash.com/32x32/?user');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.admin-name {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: #FC9256; /* Primary Orange */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  min-width: 120px;
+  z-index: 1002;
+}
+
+.profile-dropdown.open {
+  display: block; /* Show dropdown when class 'open' is applied */
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 16px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #FF8438; /* Secondary Orange on hover */
+}
+
+/* Toggle Button Styles */
+.toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #FC9256; /* Primary Orange */
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-button:hover {
+  background-color: #FF8438; /* Secondary Orange on hover */
+}
+
+.hamburger-line {
+  width: 24px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+/* Sidebar Container with Animation */
+.sidebar-container {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 256px;
+  height: calc(100% - 72px);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1100;
+}
+
+.sidebar-container.open {
+  transform: translateX(0);
+}
+
+.sidebar-container.closed {
+  transform: translateX(-100%);
+}
+
+/* Sidebar Styles */
+.sidebar {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #FC9256; /* Primary Orange */
+  color: white;
+  height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  border-right: 1px solid #FC9256; /* Primary Orange */
+  overflow-y: auto; /* Allow scrolling */
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  margin-bottom: 16px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.sidebar a:hover {
+  background-color: #FF8438; /* Secondary Orange on hover */
+}
+
+.sidebar .active {
+  background-color: #FF8438; /* Secondary Orange for active state */
+}
+
+/* Sidebar Separator */
+.sidebar-separator {
+  border: 0;
+  border-top: 1px solid #FF8438; /* Secondary Orange */
+  margin: 16px 0;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 32px;
+  overflow: auto;
+  background-color: #D3D3D3;
+  position: relative;
+  z-index: 1;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.main-content.sidebar-open {
+  margin-left: 256px;
+}
+
+.main-content.sidebar-closed {
+  margin-left: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 200px;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 200px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+
+  .app-header {
+    padding: 12px;
+  }
+
+  .toggle-button {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+
+  .hamburger-line {
+    width: 20px;
+    height: 2px;
+  }
+
+  .company-name {
+    font-size: 20px;
+  }
+
+  .profile-icon {
+  width: 30px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  background-size: cover; /* Or contain, depending on the icon */
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%; /* Optional: if you want a circular icon */
+  cursor: pointer;
+  /* Add margin or padding if needed for spacing */
+}
+
+  .admin-name {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-container {
+    width: 180px;
+  }
+
+  .main-content.sidebar-open {
+    margin-left: 180px;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .toggle-button {
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+  }
+
+  .hamburger-line {
+    width: 18px;
+    height: 2px;
+  }
+
+  .company-name {
+    font-size: 18px;
+  }
+
+  .profile-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .admin-name {
+    font-size: 12px;
+  }
+
+  .profile-dropdown {
+    min-width: 100px;
+    top: 36px;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}

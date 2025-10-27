@@ -1,0 +1,485 @@
+/* c:\Users\kd1812\Desktop\admin-dashboard-Envezon\src\styles\Promotions.css */
+.promotions-page { /* Renamed from .promotions-management for consistency with component name */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out; /* For sidebar */
+}
+
+.promotions-page.sidebar-open {
+  margin-left: 30px; /* Adjust based on your sidebar width */
+}
+
+.promotions-page.sidebar-closed {
+  margin-left: 60px; /* Adjust based on your collapsed sidebar width */
+}
+
+.promotions-header { /* Renamed for clarity */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px; /* Increased margin */
+  padding-bottom: 15px; /* Increased padding */
+  border-bottom: 1px solid #e0e0e0; /* Lighter border */
+}
+
+.promotions-header h1 {
+  margin: 0;
+  font-size: 2em; /* Larger title */
+  color: #2c3e50; /* Darker, more modern color */
+}
+
+.add-promo-button, .submit-promo-button {
+  padding: 10px 20px; /* Increased padding */
+  background-color: #3498db; /* A more vibrant blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.95em; /* Slightly larger font */
+  transition: background-color 0.2s ease; /* Smooth transition */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.add-promo-button:hover, .submit-promo-button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Styles for the grid of promotion cards */
+.promotions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid */
+  gap: 25px; /* Increased gap */
+  margin-top: 20px;
+}
+
+/* Styles for individual promotion cards */
+.promotion-card, .add-promotion-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes status to the bottom if card height varies */
+}
+
+.promotion-card:hover, .add-promotion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.promotion-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #34495e; /* Darker heading color */
+  font-size: 1.2em;
+}
+
+.promotion-card p {
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.promotion-card .status {
+  align-self: flex-start; /* Align status to the left */
+  padding: 5px 10px;
+  border-radius: 15px; /* Pill shape */
+  font-size: 0.8em;
+  font-weight: 500;
+  margin-top: 10px; /* Space above status */
+}
+
+.promotion-card .status.approved {
+  background-color: #e6ffed;
+  color: #00875a;
+}
+
+.promotion-card .status.pending {
+  background-color: #fffbe6;
+  color: #ffab00;
+}
+
+/* Styles for the "Add New Promotion" card */
+.add-promotion-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed #bdc3c7; /* Dashed border */
+  color: #7f8c8d; /* Muted text color */
+  min-height: 150px; /* Ensure it has some height */
+}
+
+.add-promotion-card:hover {
+  border-color: #3498db; /* Blue border on hover */
+  color: #3498db; /* Blue text/icon on hover */
+}
+
+.add-promo-icon { /* Class for the new icon */
+  margin-bottom: 10px;
+  color: #bdc3c7; /* Initial icon color */
+  transition: color 0.2s ease;
+}
+
+.add-promotion-card:hover .add-promo-icon {
+  color: #3498db; /* Icon color changes on card hover */
+}
+
+.add-promotion-card p {
+  margin: 0;
+  font-weight: 500;
+}
+
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px; /* Increased padding */
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px; /* Max width for the modal */
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 25px; /* Increased margin */
+  color: #333;
+  text-align: center;
+}
+
+.modal-content form div {
+  margin-bottom: 20px; /* Increased margin */
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 8px; /* Increased margin */
+  font-weight: 500;
+  color: #555;
+}
+
+.modal-content input[type="number"],
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em; /* Larger font */
+}
+
+.modal-content button {
+  padding: 12px 20px; /* Increased padding */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em; /* Larger font */
+  margin-right: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.modal-content button[type="submit"] {
+  background-color: #28a745; /* Green for submit */
+  color: white;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #218838; /* Darker green */
+}
+
+.modal-content button[type="button"] {
+  background-color: #6c757d; /* Gray for cancel */
+  color: white;
+}
+
+.modal-content button[type="button"]:hover {
+  background-color: #5a6268; /* Darker gray */
+}
+
+
+.loading-message, .error-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+}
+
+.error-message {
+  color: red;
+}
+
+/*delete button */
+
+.promotion-card {
+  position: relative; /* For absolute positioning of the delete button */
+  /* ... other existing styles for promotion-card ... */
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+  text-align: left; /* Or center if you prefer */
+}
+
+.promotion-card:hover {
+    transform: translateY(-5px);
+}
+
+.delete-promo-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ff4d4f; /* Red color for delete */
+  cursor: pointer;
+  font-size: 1.1em; /* Adjust icon size */
+  padding: 5px;
+  line-height: 1; /* Helps align icon if it has extra space */
+}
+
+.delete-promo-button:hover {
+  color: #d9363e; /* Darker red on hover */
+}
+
+.delete-promo-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Small spinner for delete button (optional, if you want a visual loading state on the button) */
+.spinner-small {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: #fff; /* Or match your icon color if preferred */
+  animation: spin 1s ease-infinite;
+  margin: auto; /* Centers if the button is larger */
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #ff4d4f; /* Standard error color */
+  margin-bottom: 15px;
+}
+
+.legacy-more-details {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+}
+
+.legacy-more-details label {
+  display: block;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.read-only-text {
+  white-space: pre-wrap; /* To respect newlines in the old string data */
+  color: #333;
+  font-size: 0.95em;
+}
+
+.custom-detail-name {
+  font-weight: 600; /* Make the name part bold in view mode */
+  margin-right: 5px;
+}
+.more-detail-item-view {
+  padding: 5px 0;
+  border-bottom: 1px dashed #eee;
+}
+.more-detail-item-view:last-child {
+  border-bottom: none;
+}
+
+
+.custom-detail-editor-item {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(200px, 2fr) auto; /* Name, Detail, Remove Button */
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  background-color: #fdfdfd;
+}
+
+.custom-detail-editor-item input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.custom-detail-editor-item input[type="text"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+.remove-detail-button {
+  background-color: transparent;
+  color: #dc3545; /* Bootstrap danger red */
+  border: 1px solid #dc3545;
+  border-radius: 50%; /* Make it round */
+  width: 30px;
+  height: 30px;
+  font-size: 1.2em;
+  line-height: 1; /* Center the 'x' */
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.remove-detail-button:hover {
+  background-color: #dc3545;
+  color: white;
+}
+.remove-detail-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-detail-button {
+  display: inline-flex; /* Use flex to center icon and text */
+  align-items: center;
+  padding: 8px 15px;
+  background-color: #28a745; /* Bootstrap success green */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95em;
+  margin-top: 10px; /* Space above the button */
+  transition: background-color 0.2s ease;
+}
+
+.add-detail-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+.add-detail-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Ensure form-group and form-row-grid are defined if not already */
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+}
+.form-row-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px 20px; /* row-gap column-gap */
+}
+
+/* Add to your existing CSS, e.g., src/styles/BusinessViewProfile.css */
+
+/* ... other styles ... */
+
+.form-select {
+  width: 100%;
+  padding: 10px 12px; /* Consistent padding with other inputs */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 1em; /* Match other input font sizes */
+  line-height: 1.5;
+  box-sizing: border-box; /* Important for width and padding */
+  appearance: none; /* Remove default system appearance if you want to style the arrow later */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Add a custom arrow or use browser default */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007BC2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 12px;
+}
+
+.form-select:disabled {
+  background-color: #e9ecef; /* Standard disabled input color */
+  opacity: 0.7;
+}
+
+.form-select:focus {
+  border-color: #007bff; /* Example focus color */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Example focus shadow */
+}
+
+
+/* Add to src/styles/BusinessViewProfile.css */
+
+/* ... your existing styles ... */
+
+.subcategories-checkbox-group {
+  display: flex;
+  flex-wrap: wrap; /* Allow checkboxes to wrap to the next line */
+  gap: 10px 15px; /* row-gap column-gap */
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #fdfdfd;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  margin-right: 15px; /* Spacing between items if they don't wrap */
+}
+
+.checkbox-item .form-checkbox {
+  margin-right: 8px;
+  width: 16px; /* Adjust size as needed */
+  height: 16px; /* Adjust size as needed */
+  cursor: pointer;
+}
+
+.checkbox-item label {
+  font-weight: normal; /* Override default label bolding if needed */
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 0; /* Override default label margin-bottom if any */
+}
+
+/* Optional: Style for when a checkbox is focused */
+.checkbox-item .form-checkbox:focus + label {
+  /* Add focus style to label if desired, e.g., outline or text decoration */
+}

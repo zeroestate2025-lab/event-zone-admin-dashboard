@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/SidebarComponent.jsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1749490224820,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1749490224820,
+            "name": "Commit-0",
+            "content": "import { Link } from 'react-router-dom';\r\n\r\nfunction SidebarComponent({ handleLogout }) {\r\n  return (\r\n    <div className=\"sidebar\">\r\n      {/* Menu */}\r\n      <nav>\r\n        <ul>\r\n          <li>\r\n            <Link to=\"/\" className=\"active\">\r\n              Home\r\n            </Link>\r\n          </li>\r\n          <li>\r\n            <Link to=\"/user-management\">\r\n              User Management\r\n            </Link>\r\n          </li>\r\n          <li>\r\n            <Link to=\"/business\">\r\n              Business Management\r\n            </Link>\r\n          </li>\r\n          <li>\r\n            <Link to=\"/pending-approvals\">\r\n              Pending Approvals\r\n            </Link>\r\n          </li>\r\n      \r\n          \r\n          <li>\r\n            <Link to=\"/promotions\">\r\n              Promotions\r\n            </Link>\r\n          </li>\r\n          \r\n          <li>\r\n            <Link to=\"/subscriptions\">\r\n              Subscriptions &  Payments\r\n            </Link>\r\n          </li>\r\n        </ul>\r\n      </nav>\r\n\r\n      {/* Bottom Section: Separator and Settings */}\r\n      <div>\r\n        <hr className=\"sidebar-separator\" />\r\n        <ul>\r\n          <li>\r\n            <Link to=\"#\" onClick={handleLogout}>\r\n              Logout\r\n            </Link>\r\n          </li>\r\n          <li>\r\n            <Link to=\"/settings\">\r\n              Settings\r\n            </Link>\r\n          </li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default SidebarComponent;"
+        }
+    ]
+}

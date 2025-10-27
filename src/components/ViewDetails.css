@@ -1,0 +1,145 @@
+.view-details-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 2px solid #e76f51;
+  }
+  
+  .view-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .view-details-header h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .details-section, .payment-section {
+    margin-bottom: 20px;
+  }
+  
+  .detail-row, .payment-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .detail-row span, .payment-row span {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .payment-section {
+    border: 1px solid #e76f51;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff5e6;
+  }
+  
+  .view-bill-button {
+    background-color: #f4a261;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .view-bill-button:hover {
+    background-color: #e76f51;
+  }
+  
+  .edit-section {
+    margin-bottom: 20px;
+  }
+  
+  .edit-form {
+    background-color: #d3d3d3;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .form-row input,
+  .form-row textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .form-row textarea {
+    height: 60px;
+    resize: vertical;
+  }
+  
+  .edit-button, .save-button {
+    background-color: #f4a261;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .edit-button:hover, .save-button:hover {
+    background-color: #e76f51;
+  }
+  
+  .image-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .image-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+  }
+  
+  .upload-button, .activate-button {
+    background-color: #f4a261;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .upload-button:hover, .activate-button:hover {
+    background-color: #e76f51;
+  }

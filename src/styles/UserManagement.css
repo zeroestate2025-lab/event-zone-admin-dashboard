@@ -1,0 +1,297 @@
+/* User Management Styles */
+.user-management {
+    width: 100%;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #E8E8E8;
+    position: relative;
+    transition: padding 0.3s ease-in-out;
+  }
+  
+  .user-management.sidebar-open {
+    padding: 24px;
+  }
+  
+  .user-management.sidebar-closed {
+    padding: 32px;
+  }
+  
+  /* Header Section */
+  .user-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .back-arrow {
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .user-management h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .search-bar {
+    position: relative;
+  }
+  
+  .search-bar input {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .search-bar .search-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+  }
+  
+  .total-users {
+    background-color: #666;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Table Styles */
+  .user-table-container {
+    overflow-x: auto;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .user-table th,
+  .user-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #E8E8E8;
+  }
+  
+  .user-table th {
+    background-color: #FF8438;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: #F5F5F5;
+  }
+  
+  .user-table tr:hover {
+    background-color: #E8E8E8;
+  }
+  
+  /* Custom Dropdown Styles for Status Column */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #28A745; /* Green background from the image */
+    border: 1px solid #28A745;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for visibility */
+    transition: all 0.3s ease;
+  }
+  
+  .dropdown-header:hover {
+    background-color: #218838; /* Darker green on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+  
+  .dropdown-arrow {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+  
+  .dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    z-index: 1;
+    width: 150px; /* Fixed width for dropdown options */
+    max-height: 300px; /* Increased height for better visibility */
+    overflow-y: auto; /* Scrollbar for many options */
+  }
+  
+  .dropdown-option {
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-option:hover {
+    background-color: #f0f0f0; /* Light gray hover effect */
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .user-management {
+      padding: 16px;
+    }
+  
+    .user-management.sidebar-open {
+      padding: 16px;
+    }
+  
+    .user-management.sidebar-closed {
+      padding: 20px;
+    }
+  
+    .user-management h1 {
+      font-size: 24px;
+    }
+  
+    .header-left {
+      gap: 8px;
+    }
+  
+    .back-arrow {
+      font-size: 20px;
+    }
+  
+    .search-bar input {
+      width: 150px;
+      font-size: 12px;
+    }
+  
+    .total-users {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  
+    .user-table th,
+    .user-table td {
+      padding: 8px;
+      font-size: 12px;
+    }
+  
+    .dropdown-header {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+  
+    .dropdown-option {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  
+    .dropdown-options {
+      width: 120px; /* Adjust width for smaller screens */
+      max-height: 250px; /* Slightly reduced height for smaller screens */
+    }
+  
+    .dropdown-arrow {
+      font-size: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .user-management {
+      padding: 12px;
+    }
+  
+    .user-management.sidebar-closed {
+      padding: 16px;
+    }
+  
+    .user-management h1 {
+      font-size: 20px;
+    }
+  
+    .header-left {
+      gap: 4px;
+    }
+  
+    .back-arrow {
+      font-size: 16px;
+    }
+  
+    .header-right {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .search-bar input {
+      width: 100%;
+      font-size: 12px;
+    }
+  
+    .total-users {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+  
+    .user-table th,
+    .user-table td {
+      padding: 6px;
+      font-size: 10px;
+    }
+  
+    .dropdown-header {
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 3px;
+    }
+  
+    .dropdown-option {
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+  
+    .dropdown-options {
+      width: 100px; /* Further adjust width for smaller screens */
+      max-height: 200px; /* Reduced height for smaller screens */
+    }
+  
+    .dropdown-arrow {
+      font-size: 8px;
+    }
+  }

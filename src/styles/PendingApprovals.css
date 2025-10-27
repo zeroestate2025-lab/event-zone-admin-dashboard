@@ -1,0 +1,339 @@
+/* Pending Approvals Styles */
+.pending-approvals {
+    width: 100%;
+    padding: 20px;
+    background-color: #f5f5f5;
+    position: relative;
+    transition: padding 0.3s ease-in-out;
+  }
+  
+  .pending-approvals.sidebar-open {
+    padding: 20px;
+  }
+  
+  .pending-approvals.sidebar-closed {
+    padding: 20px;
+  }
+  
+  /* Header Section */
+  .pending-approvals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .back-arrow {
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .pending-approvals h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar input {
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .search-bar .search-icon {
+    position: absolute;
+    right: 10px;
+    color: #666;
+  }
+  
+  .date-dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .date-text {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .date-dropdown .dropdown-arrow {
+    margin-left: 4px;
+    font-size: 10px;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .pending-approvals-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pending-approvals-table th {
+    background-color: #FF8438;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #e76f51;
+  }
+  
+  .pending-approvals-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .even-row {
+    background-color: #fff;
+  }
+  
+  .odd-row {
+    background-color: #ffecd6;
+  }
+  
+  .view-link {
+    color: #FF8438;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  
+  .view-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Custom Dropdown Styles */
+  .custom-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    background-color: #FF8438;
+    border: 1px solid #FF8438;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dropdown-header:hover {
+    background-color: #FF8438;
+  }
+  
+  .dropdown-arrow {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+  
+  .dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    z-index: 1;
+    width: 150px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdown-option {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .pending-approvals {
+      padding: 15px;
+    }
+  
+    .pending-approvals h1 {
+      font-size: 20px;
+    }
+  
+    .header-left {
+      gap: 8px;
+    }
+  
+    .back-arrow {
+      font-size: 18px;
+    }
+  
+    .search-bar input {
+      width: 150px;
+      font-size: 12px;
+    }
+  
+    .date-dropdown {
+      padding: 6px;
+    }
+  
+    .date-text {
+      font-size: 12px;
+    }
+  
+    .pending-approvals-table th,
+    .pending-approvals-table td {
+      padding: 8px;
+      font-size: 12px;
+    }
+  
+    .dropdown-header {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+  
+    .dropdown-option {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  
+    .dropdown-options {
+      width: 120px;
+      max-height: 180px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pending-approvals {
+      padding: 10px;
+    }
+  
+    .pending-approvals h1 {
+      font-size: 18px;
+    }
+  
+    .header-left {
+      gap: 6px;
+    }
+  
+    .back-arrow {
+      font-size: 16px;
+    }
+  
+    .header-right {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .search-bar input {
+      width: 100%;
+      font-size: 12px;
+    }
+  
+    .date-dropdown {
+      padding: 4px;
+    }
+  
+    .date-text {
+      font-size: 12px;
+    }
+  
+    .pending-approvals-table th,
+    .pending-approvals-table td {
+      padding: 6px;
+      font-size: 10px;
+    }
+  
+    .dropdown-header {
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+  
+    .dropdown-option {
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+  
+    .dropdown-options {
+      width: 100px;
+      max-height: 150px;
+    }
+  }
+  /* Filter Bar Styling */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 20px 0;
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Status Badge */
+.status-tag {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #fff;
+  font-size: 12px;
+}
+
+.status-tag.pending {
+  background-color: #ff9800;
+}
+
+.status-tag.approved {
+  background-color: #4caf50;
+}
+
+.status-tag.rejected {
+  background-color: #f44336;
+}

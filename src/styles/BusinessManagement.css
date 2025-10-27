@@ -1,0 +1,308 @@
+/* ===============================
+   BUSINESS MANAGEMENT PAGE STYLES
+   =============================== */
+
+.business-management {
+  width: 100%;
+  padding: 16px;
+  background-color: #E8E8E8;
+  position: relative;
+  transition: padding 0.3s ease-in-out;
+  overflow: visible !important; /* Prevent dropdown cutoff */
+  z-index: 1;
+}
+
+.business-management.sidebar-open,
+.business-management.sidebar-closed {
+  padding: 16px;
+  overflow: visible !important;
+}
+
+/* ===== HEADER SECTION ===== */
+.business-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.back-arrow {
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+}
+
+.business-management h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.total-vendors {
+  background-color: #666;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* ===== TABLE SECTION ===== */
+.business-table-container {
+  overflow: visible !important; /* Fix dropdown cutoff */
+  position: relative;
+  z-index: 1;
+}
+
+.business-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.business-table th,
+.business-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.business-table th {
+  background-color: #FF8438;
+  color: white;
+  font-weight: bold;
+  position: relative;
+  z-index: 5;
+}
+
+.business-table tr:nth-child(even) {
+  background-color: #F5F5F5;
+}
+
+.business-table tr:hover {
+  background-color: #EDEDED;
+}
+
+/* ===== FIXED DROPDOWN ===== */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 9999 !important; /* Stay above everything */
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  background-color: #FF8438;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.dropdown-header:hover {
+  background-color: #ff7a26;
+  transform: scale(1.03);
+}
+
+.dropdown-arrow {
+  margin-left: 6px;
+  font-size: 10px;
+}
+
+/* Make sure dropdown list floats on top and not cut off */
+.dropdown-options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 180px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 99999 !important; /* Key fix */
+  overflow-y: auto;
+  max-height: 240px;
+}
+
+.dropdown-option {
+  padding: 8px 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.dropdown-option:hover {
+  background-color: #ffecd6;
+  color: #ff8438;
+  font-weight: 500;
+}
+
+/* ===== STATUS LABELS ===== */
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status.active {
+  background-color: #E0FFE0;
+  color: #28A745;
+}
+
+.status.suspend {
+  background-color: #FFE0E0;
+  color: #DC3545;
+}
+
+/* ===== VIEW PROFILE LINK ===== */
+.view-profile {
+  color: #D2691E;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.view-profile:hover {
+  text-decoration: underline;
+  color: #b85c0f;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .business-management {
+    padding: 12px;
+  }
+
+  .business-management h1 {
+    font-size: 24px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .back-arrow {
+    font-size: 20px;
+  }
+
+  .total-vendors {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .business-table th,
+  .business-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .dropdown-header {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .dropdown-option {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .dropdown-options {
+    width: 150px;
+  }
+
+  .status {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .view-profile {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .business-management {
+    padding: 8px;
+  }
+
+  .business-management h1 {
+    font-size: 20px;
+  }
+
+  .header-left {
+    gap: 4px;
+  }
+
+  .back-arrow {
+    font-size: 16px;
+  }
+
+  .header-right {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .total-vendors {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .business-table th,
+  .business-table td {
+    padding: 6px;
+    font-size: 10px;
+  }
+
+  .dropdown-header {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .dropdown-option {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .dropdown-options {
+    width: 120px;
+    max-height: 180px;
+  }
+
+  .status {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .view-profile {
+    font-size: 10px;
+  }
+}

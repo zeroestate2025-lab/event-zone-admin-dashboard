@@ -1,0 +1,208 @@
+/* ===============================
+   LOGIN SCREEN STYLES (Animated)
+   =============================== */
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #d3d3d3, #e8e8e8);
+  animation: fadeIn 1s ease-in-out;
+  overflow: hidden;
+}
+
+/* --- Animated Login Box --- */
+.login-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  transform: translateY(50px);
+  opacity: 0;
+  animation: slideUp 0.8s ease forwards;
+}
+
+/* Title Animations */
+.login-title {
+  color: #3C2A21;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.login-box h2 {
+  font-size: 22px;
+  color: #555;
+  margin-bottom: 30px;
+  font-weight: 500;
+  animation: fadeInUp 1s ease 0.2s forwards;
+}
+
+/* Error Message */
+.error-message {
+  color: #DC3545;
+  font-size: 14px;
+  margin-bottom: 12px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* --- Form Styling --- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Floating Label Inputs */
+.form-group {
+  position: relative;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.form-group label {
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font-size: 14px;
+  color: #888;
+  background: white;
+  padding: 0 4px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #D2691E;
+  box-shadow: 0 0 6px rgba(210, 105, 30, 0.3);
+}
+
+/* Floating Label Effect */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 8px;
+  font-size: 12px;
+  color: #D2691E;
+}
+
+/* --- Login Button --- */
+.login-button {
+  background: linear-gradient(90deg, #D2691E, #b35715);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(210, 105, 30, 0.3);
+}
+
+.login-button:hover {
+  background: linear-gradient(90deg, #b35715, #D2691E);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(210, 105, 30, 0.4);
+}
+
+.login-button:active {
+  transform: scale(0.98);
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .login-box {
+    padding: 32px;
+    max-width: 340px;
+  }
+
+  .login-title {
+    font-size: 28px;
+  }
+
+  .login-box h2 {
+    font-size: 20px;
+  }
+
+  .form-group input {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .login-button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 24px;
+    max-width: 300px;
+  }
+
+  .login-title {
+    font-size: 24px;
+  }
+
+  .login-box h2 {
+    font-size: 18px;
+  }
+
+  .form-group input {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .login-button {
+    padding: 9px;
+    font-size: 13px;
+  }
+}
