@@ -1,297 +1,442 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* User Management Styles */
 .user-management {
-    width: 100%;
-    padding: 32px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    background-color: #E8E8E8;
-    position: relative;
-    transition: padding 0.3s ease-in-out;
+  width: 100%;
+  padding: 0;
+  background-color: #FFFFFF;
+  position: relative;
+  transition: padding 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.user-management.sidebar-open {
+  padding: 0;
+}
+
+.user-management.sidebar-closed {
+  padding: 0;
+}
+
+/* Header Actions */
+.user-management-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 32px;
+  gap: 20px;
+}
+
+.search-bar {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-bar input {
+  padding: 12px 45px 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+  background-color: white;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.search-bar input::placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: #999;
+}
+
+.search-bar input:focus {
+  border-color: #FC9256;
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.total-users {
+  background-color: #5A5A5A;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Container with Black Outline */
+.user-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  margin: 0 32px 32px 32px;
+  border: 2px solid #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.user-table th,
+.user-table td {
+  padding: 18px 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.user-table th {
+  background-color: #FC9256;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #FF8438;
+}
+
+.sort-arrow {
+  margin-left: 6px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.user-table tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #F0F0F0;
+  position: relative;
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #FFF5F0;
+}
+
+.user-table tbody tr:hover {
+  background-color: #FFE8DC;
+}
+
+.user-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.user-table td {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+/* Loading and Error Messages */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 24px;
+  font-size: 16px;
+  color: #666;
+  background-color: white;
+  border-radius: 12px;
+  margin: 24px 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  border: 2px solid #E0E0E0;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 2px solid #d32f2f;
+}
+
+/* Custom Dropdown Styles for Status Column - FIXED Z-INDEX */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 130px;
+  z-index: 50;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  z-index: 51;
+}
+
+.dropdown-header.active {
+  background-color: #28A745;
+}
+
+.dropdown-header.suspend {
+  background-color: #DC3545;
+}
+
+.dropdown-header.block {
+  background-color: #6C757D;
+}
+
+.dropdown-header:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+.dropdown-arrow {
+  margin-left: 10px;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background-color: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 1000;
+  width: 100%;
+  min-width: 130px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-option {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  position: relative;
+  z-index: 1001;
+}
+
+.dropdown-option:hover {
+  background-color: #FFE8DC;
+  color: #FC9256;
+}
+
+.dropdown-option:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.dropdown-option:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Ensure dropdown appears above other content */
+.user-table tbody tr:has(.custom-dropdown .dropdown-options) {
+  z-index: 100;
+}
+
+.user-table tbody tr td:has(.custom-dropdown .dropdown-options) {
+  z-index: 100;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .user-management-actions {
+    margin: 20px 24px;
   }
-  
-  .user-management.sidebar-open {
-    padding: 24px;
-  }
-  
-  .user-management.sidebar-closed {
-    padding: 32px;
-  }
-  
-  /* Header Section */
-  .user-management-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  .back-arrow {
-    font-size: 24px;
-    color: #666;
-    cursor: pointer;
-  }
-  
-  .user-management h1 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  .search-bar {
-    position: relative;
-  }
-  
-  .search-bar input {
-    padding: 8px 32px 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-  }
-  
-  .search-bar .search-icon {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-  }
-  
-  .total-users {
-    background-color: #666;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  /* Table Styles */
+
   .user-table-container {
-    overflow-x: auto;
+    margin: 0 24px 24px 24px;
   }
-  
-  .user-table {
+}
+
+@media (max-width: 768px) {
+  .user-management {
+    padding: 0;
+  }
+
+  .user-management-actions {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    margin: 20px 20px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+
+  .search-bar input {
     width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
+    padding: 10px 40px 10px 14px;
+    font-size: 14px;
   }
-  
+
+  .total-users {
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .user-table-container {
+    margin: 0 20px 20px 20px;
+    border: 2px solid #333333;
+  }
+
   .user-table th,
   .user-table td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #E8E8E8;
+    padding: 14px 12px;
+    font-size: 13px;
   }
-  
+
   .user-table th {
-    background-color: #FF8438;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .user-table tr:nth-child(even) {
-    background-color: #F5F5F5;
-  }
-  
-  .user-table tr:hover {
-    background-color: #E8E8E8;
-  }
-  
-  /* Custom Dropdown Styles for Status Column */
-  .custom-dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-header {
-    display: flex;
-    align-items: center;
-    padding: 6px 12px;
-    background-color: #28A745; /* Green background from the image */
-    border: 1px solid #28A745;
-    border-radius: 6px;
-    cursor: pointer;
     font-size: 14px;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for visibility */
-    transition: all 0.3s ease;
   }
-  
-  .dropdown-header:hover {
-    background-color: #218838; /* Darker green on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+
+  .custom-dropdown {
+    width: 110px;
   }
-  
-  .dropdown-arrow {
-    margin-left: 6px;
-    font-size: 12px;
+
+  .dropdown-header {
+    padding: 8px 12px;
+    font-size: 13px;
   }
-  
+
   .dropdown-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 0;
-    margin: 4px 0 0 0;
-    z-index: 1;
-    width: 150px; /* Fixed width for dropdown options */
-    max-height: 300px; /* Increased height for better visibility */
-    overflow-y: auto; /* Scrollbar for many options */
+    min-width: 110px;
+    z-index: 1000;
   }
-  
+
   .dropdown-option {
     padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .loading-message,
+  .error-message {
+    margin: 20px 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-management-actions {
+    margin: 16px 16px;
+  }
+
+  .search-bar input {
+    padding: 9px 36px 9px 12px;
+    font-size: 13px;
+  }
+
+  .search-bar .search-icon {
+    font-size: 16px;
+    right: 12px;
+  }
+
+  .total-users {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .user-table-container {
+    margin: 0 16px 16px 16px;
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .user-table th {
+    font-size: 13px;
+  }
+
+  .custom-dropdown {
+    width: 100px;
+  }
+
+  .dropdown-header {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .dropdown-arrow {
     font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    margin-left: 6px;
   }
-  
-  .dropdown-option:hover {
-    background-color: #f0f0f0; /* Light gray hover effect */
+
+  .dropdown-options {
+    min-width: 100px;
+    z-index: 1000;
   }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .user-management {
-      padding: 16px;
-    }
-  
-    .user-management.sidebar-open {
-      padding: 16px;
-    }
-  
-    .user-management.sidebar-closed {
-      padding: 20px;
-    }
-  
-    .user-management h1 {
-      font-size: 24px;
-    }
-  
-    .header-left {
-      gap: 8px;
-    }
-  
-    .back-arrow {
-      font-size: 20px;
-    }
-  
-    .search-bar input {
-      width: 150px;
-      font-size: 12px;
-    }
-  
-    .total-users {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-  
-    .user-table th,
-    .user-table td {
-      padding: 8px;
-      font-size: 12px;
-    }
-  
-    .dropdown-header {
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-  
-    .dropdown-option {
-      font-size: 12px;
-      padding: 6px 10px;
-    }
-  
-    .dropdown-options {
-      width: 120px; /* Adjust width for smaller screens */
-      max-height: 250px; /* Slightly reduced height for smaller screens */
-    }
-  
-    .dropdown-arrow {
-      font-size: 10px;
-    }
+
+  .dropdown-option {
+    padding: 9px 10px;
+    font-size: 12px;
   }
-  
-  @media (max-width: 480px) {
-    .user-management {
-      padding: 12px;
-    }
-  
-    .user-management.sidebar-closed {
-      padding: 16px;
-    }
-  
-    .user-management h1 {
-      font-size: 20px;
-    }
-  
-    .header-left {
-      gap: 4px;
-    }
-  
-    .back-arrow {
-      font-size: 16px;
-    }
-  
-    .header-right {
-      flex-direction: column;
-      gap: 8px;
-    }
-  
-    .search-bar input {
-      width: 100%;
-      font-size: 12px;
-    }
-  
-    .total-users {
-      font-size: 12px;
-      padding: 4px 8px;
-    }
-  
-    .user-table th,
-    .user-table td {
-      padding: 6px;
-      font-size: 10px;
-    }
-  
-    .dropdown-header {
-      font-size: 10px;
-      padding: 3px 6px;
-      border-radius: 3px;
-    }
-  
-    .dropdown-option {
-      font-size: 10px;
-      padding: 4px 8px;
-    }
-  
-    .dropdown-options {
-      width: 100px; /* Further adjust width for smaller screens */
-      max-height: 200px; /* Reduced height for smaller screens */
-    }
-  
-    .dropdown-arrow {
-      font-size: 8px;
-    }
+
+  .loading-message,
+  .error-message {
+    margin: 16px 16px;
+    padding: 16px;
+    font-size: 14px;
   }
+}
+
+/* Additional styling for better UX */
+.user-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.user-table-container::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.user-table-container::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.user-table-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}

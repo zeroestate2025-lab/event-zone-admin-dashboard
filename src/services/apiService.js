@@ -92,6 +92,18 @@ export const getBusinessPartnerCount = async () => {
   }
 };
 
+export const deleteBusinessPartner = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/business-partner/${id}`, {
+      headers: authHeader(),
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting business partner ${id}:`, error);
+    throw error;
+  }
+};
+
 // -------------------- USER APIS --------------------
 export const getAllUsers = async () => {
   try {
@@ -229,6 +241,73 @@ export const deletePaymentById = async (id) => {
     throw error;
   }
 };
+
+
+// -------------------- OFFERS APIS --------------------
+export const getAllOffers = async () => {
+  try {
+    console.log(`Fetching all offers from ${API_BASE_URL}/offers`);
+    const response = await axios.get(`${API_BASE_URL}/offers`, {
+      headers: authHeader(),
+    });
+    console.log("Offers API Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching all offers:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const createOffer = async (formData) => {
+  try {
+    console.log("Creating offer with data:", formData);
+    const response = await axios.post(`${API_BASE_URL}/offers`, formData, {
+      headers: {
+        ...authHeader(),
+        // Don't set Content-Type for FormData, axios will set it automatically
+      },
+    });
+    console.log("Offer created successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating offer:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const updateOffer = async (offerId, formData) => {
+  try {
+    console.log(`Updating offer ${offerId} with data:`, formData);
+    const response = await axios.put(`${API_BASE_URL}/offers/${offerId}`, formData, {
+      headers: {
+        ...authHeader(),
+      },
+    });
+    console.log(`Offer ${offerId} updated successfully:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating offer ${offerId}:`, error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const deleteOffer = async (offerId) => {
+  try {
+    console.log(`Attempting to delete offer with ID: ${offerId}`);
+    const response = await axios.delete(`${API_BASE_URL}/offers/${offerId}`, {
+      headers: authHeader(),
+    });
+    console.log(`Offer ${offerId} deleted successfully:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting offer ${offerId}:`, error.response?.data || error.message);
+    throw error;
+  }
+};
+
+
+
+
 
 // // c:\Users\kd1812\Desktop\admin-dashboard-Envezon\src\services\apiService.js
 // import axios from 'axios';

@@ -1,220 +1,446 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Subscriptions Styles */
 .subscriptions {
-    width: 100%;
-    padding: 20px;
-    background-color: #f5f5f5;
-    position: relative;
-    transition: padding 0.3s ease-in-out;
+  width: 100%;
+  padding: 0;
+  background-color: #FFFFFF;
+  position: relative;
+  transition: padding 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.subscriptions.sidebar-open {
+  padding: 0;
+}
+
+.subscriptions.sidebar-closed {
+  padding: 0;
+}
+
+/* Header Actions */
+.subscriptions-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 32px;
+  gap: 20px;
+}
+
+.search-bar {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-bar input {
+  padding: 12px 45px 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+  background-color: white;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.search-bar input::placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: #999;
+}
+
+.search-bar input:focus {
+  border-color: #FC9256;
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-button:hover {
+  border-color: #FC9256;
+  color: #FC9256;
+}
+
+.filter-icon {
+  font-size: 18px;
+}
+
+/* Table Container with Black Outline */
+.subscriptions-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  margin: 0 32px 32px 32px;
+  border: 2px solid #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.subscriptions-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.subscriptions-table th,
+.subscriptions-table td {
+  padding: 18px 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.subscriptions-table th {
+  background-color: #FC9256;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #FF8438;
+}
+
+/* Table Body Styles */
+.subscriptions-table tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #F0F0F0;
+  position: relative;
+}
+
+.subscriptions-table tbody tr:nth-child(even) {
+  background-color: #FFF5F0;
+}
+
+.subscriptions-table tbody tr:hover {
+  background-color: #FFE8DC;
+}
+
+.subscriptions-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.subscriptions-table td {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+/* Action Buttons Container */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.status-badge.paid {
+  background-color: #28A745;
+  color: white;
+}
+
+.status-badge.unpaid {
+  background-color: #DC3545;
+  color: white;
+}
+
+.status-badge.pending {
+  background-color: #FFC107;
+  color: white;
+}
+
+/* Viewbill Link */
+.viewbill-link {
+  color: #FC9256;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.viewbill-link:hover {
+  color: #FF8438;
+  text-decoration: underline;
+}
+
+/* Delete Payment Button */
+.delete-payment-button {
+  background-color: transparent;
+  border: none;
+  color: #DC3545;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-payment-button:hover {
+  background-color: #DC3545;
+  color: white;
+  transform: scale(1.1);
+}
+
+.delete-payment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Spinner Icon */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .subscriptions.sidebar-open {
-    padding: 20px;
+}
+
+.spinner-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+/* Loading and Error Messages */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 24px;
+  font-size: 16px;
+  color: #666;
+  background-color: white;
+  border-radius: 12px;
+  margin: 24px 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  border: 2px solid #E0E0E0;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 2px solid #d32f2f;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .subscriptions-actions {
+    margin: 20px 24px;
   }
-  
-  .subscriptions.sidebar-closed {
-    padding: 20px;
+
+  .subscriptions-table-container {
+    margin: 0 24px 24px 24px;
   }
-  
-  /* Header Section */
-  .subscriptions-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .subscriptions {
+    padding: 0;
   }
-  
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+  .subscriptions-actions {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    margin: 20px 20px;
   }
-  
-  .back-arrow {
-    font-size: 20px;
-    color: #666;
-    cursor: pointer;
-  }
-  
-  .subscriptions h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
+
   .search-bar {
-    position: relative;
-    display: flex;
-    align-items: center;
+    max-width: 100%;
   }
-  
+
   .search-bar input {
-    padding: 8px 32px 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-  }
-  
-  .search-bar .search-icon {
-    position: absolute;
-    right: 10px;
-    color: #666;
-  }
-  
-  .date-dropdown {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  
-  .date-text {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .date-dropdown .dropdown-arrow {
-    margin-left: 4px;
-    font-size: 10px;
-  }
-  
-  /* Table Styles */
-  .table-container {
-    overflow-x: auto;
-  }
-  
-  .subscriptions-table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .subscriptions-table th {
-    background-color: #FF8438;
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid #e76f51;
-  }
-  
-  .subscriptions-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .even-row {
-    background-color: #fff;
-  }
-  
-  .odd-row {
-    background-color: #ffecd6;
-  }
-  
-  .viewbill-link {
-    color: #e76f51;
-    text-decoration: none;
+    padding: 10px 40px 10px 14px;
     font-size: 14px;
   }
-  
-  .viewbill-link:hover {
-    text-decoration: underline;
+
+  .filter-buttons {
+    flex-direction: row;
+    justify-content: space-between;
   }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .subscriptions {
-      padding: 15px;
-    }
-  
-    .subscriptions h1 {
-      font-size: 20px;
-    }
-  
-    .header-left {
-      gap: 8px;
-    }
-  
-    .back-arrow {
-      font-size: 18px;
-    }
-  
-    .search-bar input {
-      width: 150px;
-      font-size: 12px;
-    }
-  
-    .date-dropdown {
-      padding: 6px;
-    }
-  
-    .date-text {
-      font-size: 12px;
-    }
-  
-    .subscriptions-table th,
-    .subscriptions-table td {
-      padding: 8px;
-      font-size: 12px;
-    }
+
+  .filter-button {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 14px;
   }
-  
-  @media (max-width: 480px) {
-    .subscriptions {
-      padding: 10px;
-    }
-  
-    .subscriptions h1 {
-      font-size: 18px;
-    }
-  
-    .header-left {
-      gap: 6px;
-    }
-  
-    .back-arrow {
-      font-size: 16px;
-    }
-  
-    .header-right {
-      flex-direction: column;
-      gap: 8px;
-    }
-  
-    .search-bar input {
-      width: 100%;
-      font-size: 12px;
-    }
-  
-    .date-dropdown {
-      padding: 4px;
-    }
-  
-    .date-text {
-      font-size: 12px;
-    }
-  
-    .subscriptions-table th,
-    .subscriptions-table td {
-      padding: 6px;
-      font-size: 10px;
-    }
+
+  .subscriptions-table-container {
+    margin: 0 20px 20px 20px;
+    border: 2px solid #333333;
   }
+
+  .subscriptions-table th,
+  .subscriptions-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+  }
+
+  .subscriptions-table th {
+    font-size: 14px;
+  }
+
+  .status-badge {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .viewbill-link {
+    font-size: 13px;
+  }
+
+  .action-buttons {
+    gap: 8px;
+  }
+
+  .delete-payment-button {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .loading-message,
+  .error-message {
+    margin: 20px 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .subscriptions-actions {
+    margin: 16px 16px;
+  }
+
+  .search-bar input {
+    padding: 9px 36px 9px 12px;
+    font-size: 13px;
+  }
+
+  .search-bar .search-icon {
+    font-size: 16px;
+    right: 12px;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filter-button {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .subscriptions-table-container {
+    margin: 0 16px 16px 16px;
+  }
+
+  .subscriptions-table th,
+  .subscriptions-table td {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .subscriptions-table th {
+    font-size: 13px;
+  }
+
+  .status-badge {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .viewbill-link {
+    font-size: 12px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .delete-payment-button {
+    font-size: 13px;
+  }
+
+  .loading-message,
+  .error-message {
+    margin: 16px 16px;
+    padding: 16px;
+    font-size: 14px;
+  }
+}
+
+/* Scrollbar Styling */
+.subscriptions-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.subscriptions-table-container::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.subscriptions-table-container::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.subscriptions-table-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}

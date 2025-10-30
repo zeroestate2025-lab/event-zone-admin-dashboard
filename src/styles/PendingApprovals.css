@@ -1,339 +1,497 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 /* Pending Approvals Styles */
 .pending-approvals {
-    width: 100%;
-    padding: 20px;
-    background-color: #f5f5f5;
-    position: relative;
-    transition: padding 0.3s ease-in-out;
-  }
-  
-  .pending-approvals.sidebar-open {
-    padding: 20px;
-  }
-  
-  .pending-approvals.sidebar-closed {
-    padding: 20px;
-  }
-  
-  /* Header Section */
-  .pending-approvals-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .back-arrow {
-    font-size: 20px;
-    color: #666;
-    cursor: pointer;
-  }
-  
-  .pending-approvals h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .search-bar {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-  
-  .search-bar input {
-    padding: 8px 32px 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-  }
-  
-  .search-bar .search-icon {
-    position: absolute;
-    right: 10px;
-    color: #666;
-  }
-  
-  .date-dropdown {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-  }
-  
-  .date-text {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .date-dropdown .dropdown-arrow {
-    margin-left: 4px;
-    font-size: 10px;
-  }
-  
-  /* Table Styles */
-  .table-container {
-    overflow-x: auto;
-  }
-  
-  .pending-approvals-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .pending-approvals-table th {
-    background-color: #FF8438;
-    color: white;
-    font-weight: bold;
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid #e76f51;
-  }
-  
-  .pending-approvals-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .even-row {
-    background-color: #fff;
-  }
-  
-  .odd-row {
-    background-color: #ffecd6;
-  }
-  
-  .view-link {
-    color: #FF8438;
-    text-decoration: none;
-    font-size: 14px;
-  }
-  
-  .view-link:hover {
-    text-decoration: underline;
-  }
-  
-  /* Custom Dropdown Styles */
-  .custom-dropdown {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .dropdown-header {
-    display: flex;
-    align-items: center;
-    padding: 6px 12px;
-    background-color: #FF8438;
-    border: 1px solid #FF8438;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dropdown-header:hover {
-    background-color: #FF8438;
-  }
-  
-  .dropdown-arrow {
-    margin-left: 6px;
-    font-size: 12px;
-  }
-  
-  .dropdown-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 0;
-    margin: 4px 0 0 0;
-    z-index: 1;
-    width: 150px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .dropdown-option {
-    padding: 8px 12px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .dropdown-option:hover {
-    background-color: #f0f0f0;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .pending-approvals {
-      padding: 15px;
-    }
-  
-    .pending-approvals h1 {
-      font-size: 20px;
-    }
-  
-    .header-left {
-      gap: 8px;
-    }
-  
-    .back-arrow {
-      font-size: 18px;
-    }
-  
-    .search-bar input {
-      width: 150px;
-      font-size: 12px;
-    }
-  
-    .date-dropdown {
-      padding: 6px;
-    }
-  
-    .date-text {
-      font-size: 12px;
-    }
-  
-    .pending-approvals-table th,
-    .pending-approvals-table td {
-      padding: 8px;
-      font-size: 12px;
-    }
-  
-    .dropdown-header {
-      font-size: 12px;
-      padding: 4px 8px;
-    }
-  
-    .dropdown-option {
-      font-size: 12px;
-      padding: 6px 10px;
-    }
-  
-    .dropdown-options {
-      width: 120px;
-      max-height: 180px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .pending-approvals {
-      padding: 10px;
-    }
-  
-    .pending-approvals h1 {
-      font-size: 18px;
-    }
-  
-    .header-left {
-      gap: 6px;
-    }
-  
-    .back-arrow {
-      font-size: 16px;
-    }
-  
-    .header-right {
-      flex-direction: column;
-      gap: 8px;
-    }
-  
-    .search-bar input {
-      width: 100%;
-      font-size: 12px;
-    }
-  
-    .date-dropdown {
-      padding: 4px;
-    }
-  
-    .date-text {
-      font-size: 12px;
-    }
-  
-    .pending-approvals-table th,
-    .pending-approvals-table td {
-      padding: 6px;
-      font-size: 10px;
-    }
-  
-    .dropdown-header {
-      font-size: 10px;
-      padding: 3px 6px;
-    }
-  
-    .dropdown-option {
-      font-size: 10px;
-      padding: 4px 8px;
-    }
-  
-    .dropdown-options {
-      width: 100px;
-      max-height: 150px;
-    }
-  }
-  /* Filter Bar Styling */
-.filter-bar {
+  width: 100%;
+  padding: 0;
+  background-color: #FFFFFF;
+  position: relative;
+  transition: padding 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.pending-approvals.sidebar-open {
+  padding: 0;
+}
+
+.pending-approvals.sidebar-closed {
+  padding: 0;
+}
+
+/* Header Actions */
+.pending-approvals-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 32px;
+  gap: 20px;
+}
+
+.search-bar {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-bar input {
+  padding: 12px 45px 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+  background-color: white;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.search-bar input::placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: #999;
+}
+
+.search-bar input:focus {
+  border-color: #FC9256;
+}
+
+.search-bar .search-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 18px;
+  pointer-events: none;
+}
+
+.filter-button {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin: 0 0 20px 0;
-  background: #fff;
-  padding: 10px 15px;
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: white;
+  border: 2px solid #E0E0E0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Status Badge */
-.status-tag {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-weight: bold;
-  color: #fff;
+.filter-button:hover {
+  border-color: #FC9256;
+  color: #FC9256;
+}
+
+.filter-icon {
+  font-size: 18px;
+}
+
+/* Table Container with Black Outline */
+.pending-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  margin: 0 32px 32px 32px;
+  border: 2px solid #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.pending-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.pending-table th,
+.pending-table td {
+  padding: 18px 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.pending-table th {
+  background-color: #FC9256;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #FF8438;
+}
+
+/* Catering Dropdown in Table Header */
+.catering-dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 100;
+}
+
+.catering-dropdown-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: opacity 0.2s ease;
+}
+
+.catering-dropdown-header:hover {
+  opacity: 0.9;
+}
+
+.catering-dropdown-arrow {
   font-size: 12px;
+  transition: transform 0.2s ease;
 }
 
-.status-tag.pending {
-  background-color: #ff9800;
+.catering-dropdown-options {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background-color: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 1000;
+  min-width: 180px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.status-tag.approved {
-  background-color: #4caf50;
+.catering-dropdown-option {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
 }
 
-.status-tag.rejected {
-  background-color: #f44336;
+.catering-dropdown-option:hover {
+  background-color: #FFE8DC;
+  color: #FC9256;
+}
+
+.catering-dropdown-option:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.catering-dropdown-option:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Paid Dropdown in Table Header */
+.paid-dropdown {
+  position: relative;
+  display: inline-block;
+  z-index: 100;
+}
+
+.paid-dropdown-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: opacity 0.2s ease;
+}
+
+.paid-dropdown-header:hover {
+  opacity: 0.9;
+}
+
+.paid-dropdown-arrow {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.paid-dropdown-options {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background-color: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 6px 0;
+  margin: 0;
+  z-index: 1000;
+  min-width: 140px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.paid-dropdown-option {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.paid-dropdown-option:hover {
+  background-color: #FFE8DC;
+  color: #FC9256;
+}
+
+.paid-dropdown-option:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.paid-dropdown-option:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Table Body Styles */
+.pending-table tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #F0F0F0;
+  position: relative;
+}
+
+.pending-table tbody tr:nth-child(even) {
+  background-color: #FFF5F0;
+}
+
+.pending-table tbody tr:hover {
+  background-color: #FFE8DC;
+}
+
+.pending-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.pending-table td {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+/* View Link */
+.view-link {
+  color: #FC9256;
+  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.view-link:hover {
+  color: #FF8438;
+}
+
+/* Loading and Error Messages */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 24px;
+  font-size: 16px;
+  color: #666;
+  background-color: white;
+  border-radius: 12px;
+  margin: 24px 32px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  border: 2px solid #E0E0E0;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  border: 2px solid #d32f2f;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .pending-approvals-actions {
+    margin: 20px 24px;
+  }
+
+  .pending-table-container {
+    margin: 0 24px 24px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pending-approvals {
+    padding: 0;
+  }
+
+  .pending-approvals-actions {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    margin: 20px 20px;
+  }
+
+  .search-bar {
+    max-width: 100%;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    font-size: 14px;
+  }
+
+  .filter-button {
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .pending-table-container {
+    margin: 0 20px 20px 20px;
+    border: 2px solid #333333;
+  }
+
+  .pending-table th,
+  .pending-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+  }
+
+  .pending-table th {
+    font-size: 14px;
+  }
+
+  .catering-dropdown-header,
+  .paid-dropdown-header {
+    font-size: 14px;
+  }
+
+  .catering-dropdown-options,
+  .paid-dropdown-options {
+    min-width: 160px;
+  }
+
+  .catering-dropdown-option,
+  .paid-dropdown-option {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .view-link {
+    font-size: 13px;
+  }
+
+  .loading-message,
+  .error-message {
+    margin: 20px 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pending-approvals-actions {
+    margin: 16px 16px;
+  }
+
+  .search-bar input {
+    padding: 9px 36px 9px 12px;
+    font-size: 13px;
+  }
+
+  .search-bar .search-icon {
+    font-size: 16px;
+    right: 12px;
+  }
+
+  .filter-button {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .filter-icon {
+    font-size: 16px;
+  }
+
+  .pending-table-container {
+    margin: 0 16px 16px 16px;
+  }
+
+  .pending-table th,
+  .pending-table td {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .pending-table th {
+    font-size: 13px;
+  }
+
+  .catering-dropdown-header,
+  .paid-dropdown-header {
+    font-size: 13px;
+  }
+
+  .catering-dropdown-arrow,
+  .paid-dropdown-arrow {
+    font-size: 10px;
+  }
+
+  .catering-dropdown-options,
+  .paid-dropdown-options {
+    min-width: 140px;
+  }
+
+  .catering-dropdown-option,
+  .paid-dropdown-option {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+
+  .view-link {
+    font-size: 12px;
+  }
+
+  .loading-message,
+  .error-message {
+    margin: 16px 16px;
+    padding: 16px;
+    font-size: 14px;
+  }
+}
+
+/* Scrollbar Styling */
+.pending-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.pending-table-container::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.pending-table-container::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.pending-table-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
 }

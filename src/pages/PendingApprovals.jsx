@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import PageHeader from '../components/PageHeader';
 import "../styles/PendingApprovals.css";
 import { getAllBusinessPartners } from "../services/apiService";
 
@@ -7,6 +8,7 @@ function PendingApprovals({ isSidebarOpen }) {
   const [allBusinesses, setAllBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
@@ -27,7 +29,7 @@ function PendingApprovals({ isSidebarOpen }) {
     "Decoration",
   ];
 
-  // Status options (you can extend this later if API adds more)
+  // Status options
   const statusOptions = ["All", "Pending", "Approved", "Rejected"];
 
   // Dropdown toggles
@@ -68,7 +70,7 @@ function PendingApprovals({ isSidebarOpen }) {
 
     // Filter by approval status
     if (selectedStatus === "Pending") {
-      currentBusinesses = currentBusinesses.filter((b) => !b.isApproved);
+      currentBusinesses = currentBusinesses.filter((b) => !b.isApproved && !b.isRejected);
     } else if (selectedStatus === "Approved") {
       currentBusinesses = currentBusinesses.filter((b) => b.isApproved);
     } else if (selectedStatus === "Rejected") {
@@ -84,99 +86,101 @@ function PendingApprovals({ isSidebarOpen }) {
       );
     }
 
+    // Filter by search term
+    if (searchTerm) {
+      currentBusinesses = currentBusinesses.filter(business =>
+        business.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        business.phoneNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        business.id?.toString().includes(searchTerm)
+      );
+    }
+
     return currentBusinesses;
-  }, [allBusinesses, selectedService, selectedStatus]);
+  }, [allBusinesses, selectedService, selectedStatus, searchTerm]);
 
   return (
     <div className={`pending-approvals ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
-      {/* Header */}
-      <div className="pending-approvals-header">
-        <div className="header-left">
-          <span className="back-arrow" onClick={() => navigate(-1)} style={{ cursor: "pointer" }}>
-            ←
-          </span>
-          <h1>Pending Approvals</h1>
+      <PageHeader title="Approvals" showBreadcrumb={true} />
+
+      {/* Header Actions */}
+      <div className="pending-approvals-actions">
+        <div className="search-bar">
+          <input 
+            type="text" 
+            placeholder="Search" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <span className="search-icon">🔍</span>
+        </div>
+        <div className="filter-button">
+          <span className="filter-icon">🗓️</span> Today
         </div>
       </div>
 
       {loading && <p className="loading-message">Loading pending approvals...</p>}
       {error && <p className="error-message">Error: {error}</p>}
 
-      {/* Filters */}
-      <div className="filter-bar">
-        {/* Service Dropdown */}
-        <div className="custom-dropdown">
-          <div className="dropdown-header" onClick={toggleServiceDropdown}>
-            {selectedService} <span className="dropdown-arrow">▼</span>
-          </div>
-          {isServiceDropdownOpen && (
-            <ul className="dropdown-options">
-              {serviceOptions.map((option) => (
-                <li
-                  key={option}
-                  className="dropdown-option"
-                  onClick={() => handleServiceSelect(option)}
-                >
-                  {option}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Status Dropdown */}
-        <div className="custom-dropdown">
-          <div className="dropdown-header" onClick={toggleStatusDropdown}>
-            {selectedStatus} <span className="dropdown-arrow">▼</span>
-          </div>
-          {isStatusDropdownOpen && (
-            <ul className="dropdown-options">
-              {statusOptions.map((option) => (
-                <li
-                  key={option}
-                  className="dropdown-option"
-                  onClick={() => handleStatusSelect(option)}
-                >
-                  {option}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-
       {/* Table */}
-      <div className="table-container">
-        <table className="pending-approvals-table">
+      <div className="pending-table-container">
+        <table className="pending-table">
           <thead>
             <tr>
-              <th>Business ID</th>
-              <th>Business Name</th>
-              <th>Service</th>
+              <th>Businessname</th>
+              <th>
+                <div className="catering-dropdown">
+                  <div className="catering-dropdown-header" onClick={toggleServiceDropdown}>
+                    Catering <span className="catering-dropdown-arrow">▼</span>
+                  </div>
+                  {isServiceDropdownOpen && (
+                    <ul className="catering-dropdown-options">
+                      {serviceOptions.map((option) => (
+                        <li
+                          key={option}
+                          className="catering-dropdown-option"
+                          onClick={() => handleServiceSelect(option)}
+                        >
+                          {option}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </th>
               <th>Phone Number</th>
               <th>Plan</th>
-              <th>Status</th>
-              <th>View</th>
+              <th>
+                <div className="paid-dropdown">
+                  <div className="paid-dropdown-header" onClick={toggleStatusDropdown}>
+                    Paid <span className="paid-dropdown-arrow">▼</span>
+                  </div>
+                  {isStatusDropdownOpen && (
+                    <ul className="paid-dropdown-options">
+                      {statusOptions.map((option) => (
+                        <li
+                          key={option}
+                          className="paid-dropdown-option"
+                          onClick={() => handleStatusSelect(option)}
+                        >
+                          {option}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {!loading && !error && filteredBusinesses.length > 0 ? (
               filteredBusinesses.map((business, index) => (
-                <tr key={business.id || index} className={index % 2 === 0 ? "even-row" : "odd-row"}>
-                  <td>{business.id || "N/A"}</td>
+                <tr key={business.id || index}>
                   <td>{business.businessName || "N/A"}</td>
-                  <td>{business.serviceProvided || "N/A"}</td>
+                  <td>{business.serviceProvided || "Catering"}</td>
                   <td>{business.phoneNumber || "N/A"}</td>
-                  <td>{business.plan || "N/A"}</td>
-                  <td>
-                    {business.isApproved ? (
-                      <span className="status-tag approved">Approved</span>
-                    ) : business.isRejected ? (
-                      <span className="status-tag rejected">Rejected</span>
-                    ) : (
-                      <span className="status-tag pending">Pending</span>
-                    )}
-                  </td>
+                  <td>3 Months</td>
+                  <td>Paid</td>
                   <td>
                     <Link to={`/business-profile/${business.id}`} className="view-link">
                       View
@@ -184,13 +188,13 @@ function PendingApprovals({ isSidebarOpen }) {
                   </td>
                 </tr>
               ))
-            ) : (
+            ) : !loading && !error ? (
               <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
-                  No businesses found.
+                <td colSpan="6" style={{ textAlign: "center", padding: '20px' }}>
+                  {searchTerm ? 'No businesses found matching your search.' : 'No businesses found.'}
                 </td>
               </tr>
-            )}
+            ) : null}
           </tbody>
         </table>
       </div>
@@ -199,178 +203,3 @@ function PendingApprovals({ isSidebarOpen }) {
 }
 
 export default PendingApprovals;
-
-// import { useState, useEffect, useMemo } from 'react';
-// import { Link, useNavigate } from 'react-router-dom';
-// import '../styles/PendingApprovals.css';
-// import { getAllBusinessPartners } from '../services/apiService'; // Import the API function
-
-// function PendingApprovals({ isSidebarOpen }) {
-//   // State for dropdowns in headers
-//   const [allBusinesses, setAllBusinesses] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const navigate = useNavigate();
-
-//   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
-//   const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
-//   const [selectedService, setSelectedService] = useState('Service');
-//   const [selectedStatus, setSelectedStatus] = useState('Pending');
-
-//   // Options for dropdowns
-//   const serviceOptions = ['All', 'Catering', 'Photography', 'Decoration'];
-//   // For this page, we are only interested in 'Pending' status.
-//   // If you had other statuses for pending items, you could add them here.
-//   const statusOptions = ['Pending']; 
-
-//   // Toggle dropdown visibility
-//   const toggleServiceDropdown = () => setIsServiceDropdownOpen(!isServiceDropdownOpen);
-//   const toggleStatusDropdown = () => setIsStatusDropdownOpen(!isStatusDropdownOpen);
-
-//   // Handle selection of options
-//   const handleServiceSelect = (value) => {
-//     setSelectedService(value);
-//     setIsServiceDropdownOpen(false);
-//   };
-//   const handleStatusSelect = (value) => {
-//     setSelectedStatus(value);
-//     setIsStatusDropdownOpen(false);
-//   };
-
-//   useEffect(() => {
-//     const fetchBusinesses = async () => {
-//       setLoading(true);
-//       setError(null);
-//       try {
-//         const data = await getAllBusinessPartners();
-//         setAllBusinesses(data || []); // Ensure data is an array
-//       } catch (err) {
-//         console.error("Failed to fetch business partners:", err);
-//         setError(err.message);
-//         setAllBusinesses([]); // Set to empty array on error
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchBusinesses();
-//   }, []);
-
-//   const filteredBusinesses = useMemo(() => {
-//     // Filter businesses based on approval status and selected service
-//     let currentBusinesses = allBusinesses.filter(business => !business.isApproved); // Show only not approved
-
-//     if (selectedService !== 'All' && selectedService !== 'Service') { // Assuming 'Service' is the default unselected text
-//       currentBusinesses = currentBusinesses.filter(business => business.serviceProvided === selectedService);
-//     }
-
-//     // The selectedStatus is 'Pending' by default, which aligns with !business.isApproved
-//     // if you were to allow other statuses like 'Rejected', you'd filter by selectedStatus here.
-//     return currentBusinesses;
-//   }, [allBusinesses, selectedService, selectedStatus]);
-
-//   return (
-//     <div className={`pending-approvals ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-//       {/* Header Section */}
-//       <div className="pending-approvals-header">
-//         <div className="header-left">
-//           {/* Consider making this a Link to navigate back if needed */}
-//           <span className="back-arrow" onClick={() => navigate(-1)} style={{cursor: 'pointer'}}>←</span>
-//           <h1>Pending Approvals</h1>
-//         </div>
-//         <div className="header-right">
-//           {/* <div className="search-bar">
-//             <input type="text" placeholder="Search" />
-//             <span className="search-icon">🔍</span>
-//           </div> */}
-//           {/* <div className="date-dropdown">
-//             <span onClick={() => {}} className="date-text">Today</span>
-//             <span className="dropdown-arrow">▼</span>
-//           </div> */}
-//         </div>
-//       </div>
-
-//       {loading && <p className="loading-message">Loading pending approvals...</p>}
-//       {error && <p className="error-message">Error: {error}</p>}
-
-//       {/* Table Section */}
-//       <div className="table-container">
-//         <table className="pending-approvals-table">
-//           <thead>
-//             <tr>
-//               <th>Business ID</th>
-//               <th>Business Name</th>
-//               <th>
-//                 <div className="custom-dropdown">
-//                   <div className="dropdown-header" onClick={toggleServiceDropdown}>
-//                     {selectedService} <span className="dropdown-arrow">▼</span>
-//                   </div>
-//                   {isServiceDropdownOpen && (
-//                     <ul className="dropdown-options">
-//                       {serviceOptions.map((option) => (
-//                         <li
-//                           key={option}
-//                           className="dropdown-option"
-//                           onClick={() => handleServiceSelect(option)}
-//                         >
-//                           {option}
-//                         </li>
-//                       ))}
-//                     </ul>
-//                   )}
-//                 </div>
-//               </th>
-//               <th>Phone Number</th>
-//               <th>Plan</th>
-//               <th>
-//                 <div className="custom-dropdown">
-//                   <div className="dropdown-header" onClick={toggleStatusDropdown}>
-//                     {selectedStatus} <span className="dropdown-arrow">▼</span>
-//                   </div>
-//                   {isStatusDropdownOpen && (
-//                     <ul className="dropdown-options">
-//                       {statusOptions.map((option) => (
-//                         <li
-//                           key={option}
-//                           className="dropdown-option"
-//                           onClick={() => handleStatusSelect(option)}
-//                         >
-//                           {option}
-//                         </li>
-//                       ))}
-//                     </ul>
-//                   )}
-//                 </div>
-//               </th>
-//               <th>View</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {!loading && !error && filteredBusinesses.length > 0 ? (
-//               filteredBusinesses.map((business, index) => (
-//                 <tr key={business.id || index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
-//                   <td>{business.id || 'N/A'}</td>
-//                   <td>{business.businessName || 'N/A'}</td>
-//                   <td>{business.serviceProvided || 'N/A'}</td>
-//                   <td>{business.phoneNumber || 'N/A'}</td>
-//                   <td>{business.plan || 'N/A'}</td> {/* Assuming 'plan' is a field */}
-//                   <td>Pending</td> {/* Since we filter for !isApproved, status is implicitly Pending */}
-//                   <td>
-//                     <Link to={`/business-profile/${(business.id)}`} className="view-link">
-//                       View
-//                     </Link>
-//                   </td>
-//                 </tr>
-//               ))
-//             ) : !loading && !error && filteredBusinesses.length === 0 ? (
-//                 <tr>
-//                   <td colSpan="7" style={{ textAlign: 'center' }}>No pending approvals found.</td>
-//                 </tr>
-//             ) : null}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default PendingApprovals;

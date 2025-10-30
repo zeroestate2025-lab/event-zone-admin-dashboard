@@ -1,211 +1,625 @@
 import { useState, useEffect } from 'react';
-import { getAllPromotions, addPromotion, deletePromotionById } from '../services/apiService'; // API calls uncommented
-import { IoMdAddCircleOutline } from 'react-icons/io'; // Import an icon for adding
-import '../styles/Promotions.css'; // Import the new CSS file
-import { FaTrash } from 'react-icons/fa'; // Import trash icon for delete
-
+import PageHeader from '../components/PageHeader';
+import '../styles/Promotions.css';
+import { 
+  getAllPromotions, 
+  addPromotion, 
+  deletePromotionById, 
+  getAllBusinessPartners,
+  getAllOffers,
+  createOffer,
+  updateOffer,
+  deleteOffer
+} from '../services/apiService';
+import { FaTrash, FaSpinner, FaEdit } from 'react-icons/fa';
 
 function Promotions({ isSidebarOpen }) {
-  const [promotions, setPromotions] = useState([]); // Initialize with empty array for API data
-  const [loading, setLoading] = useState(true); // Set loading to true initially
+  // Promotions state
+  const [promotions, setPromotions] = useState([]);
+  const [businesses, setBusinesses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [newPromotionData, setNewPromotionData] = useState({
-    businessId: '',
+  const [deletingPromoId, setDeletingPromoId] = useState(null);
+  const [isPromoSubmitting, setIsPromoSubmitting] = useState(false);
+  const [showPromoModal, setShowPromoModal] = useState(false);
+  const [selectedBusinessId, setSelectedBusinessId] = useState('');
+  const [selectedPosition, setSelectedPosition] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Offers state
+  const [offers, setOffers] = useState([]);
+  const [deletingOfferId, setDeletingOfferId] = useState(null);
+  const [isOfferSubmitting, setIsOfferSubmitting] = useState(false);
+  const [showOfferModal, setShowOfferModal] = useState(false);
+  const [editingOffer, setEditingOffer] = useState(null);
+  const [offerFormData, setOfferFormData] = useState({
+    redirectionUrl: '',
     position: '',
-    // Add other fields your API expects for a new promotion, e.g., title, description, dates
-    // For now, assuming isApproved is handled by backend or defaults
+    image: null,
+    video: null,
   });
-  const [isSubmitting, setIsSubmitting] = useState(false); // For add form submission
-  const [deletingItemId, setDeletingItemId] = useState(null); // To track which item is being deleted
+  const [previewImage, setPreviewImage] = useState(null);
+  const [previewVideo, setPreviewVideo] = useState(null);
 
+  useEffect(() => {
+    fetchAllData();
+  }, []);
 
-  const fetchPromotions = async () => {
+  const fetchAllData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAllPromotions();
-      setPromotions(data || []);
-      console.log("Fetched promotions:", data);
+      const [promotionsData, businessesData, offersData] = await Promise.all([
+        getAllPromotions(),
+        getAllBusinessPartners(),
+        getAllOffers()
+      ]);
+      
+      const approvedBusinesses = (businessesData || []).filter(b => b.isApproved);
+      
+      setPromotions(promotionsData || []);
+      setBusinesses(approvedBusinesses);
+      setOffers(offersData || []);
+      console.log('Promotions:', promotionsData);
+      console.log('Offers:', offersData);
     } catch (err) {
-      console.error("Failed to fetch promotions:", err);
-      setError(err.message || "Failed to load promotions.");
-      setPromotions([]);
+      console.error('Failed to fetch data:', err);
+      setError(err.message || 'Failed to load data.');
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchPromotions(); // Fetch promotions on component mount
-  }, []);
+  // ==================== PROMOTIONS FUNCTIONS ====================
+  const getBusinessById = (businessId) => {
+    return businesses.find(b => b.id === businessId);
+  };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target; // Removed type, checked as they are not used for these fields
-    setNewPromotionData(prev => ({
+  const filteredBusinesses = businesses.filter(business =>
+    business.proprietorName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    business.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    business.id?.toString().includes(searchTerm)
+  );
+
+  const handleDeletePromotion = async (promotionId) => {
+    if (!window.confirm('Are you sure you want to remove this promotion?')) {
+      return;
+    }
+
+    setDeletingPromoId(promotionId);
+    try {
+      await deletePromotionById(promotionId);
+      setPromotions(prevPromotions => 
+        prevPromotions.filter(promo => promo.id !== promotionId)
+      );
+    } catch (err) {
+      console.error(`Failed to delete promotion ${promotionId}:`, err);
+      setError(err.message || 'Failed to delete promotion.');
+    } finally {
+      setDeletingPromoId(null);
+    }
+  };
+
+  const handleOpenPromoModal = () => {
+    setShowPromoModal(true);
+    setSelectedBusinessId('');
+    setSelectedPosition('');
+    setSearchTerm('');
+  };
+
+  const handleClosePromoModal = () => {
+    setShowPromoModal(false);
+    setSelectedBusinessId('');
+    setSelectedPosition('');
+    setSearchTerm('');
+  };
+
+  const handleSubmitPromotion = async (e) => {
+    e.preventDefault();
+    
+    if (!selectedBusinessId || !selectedPosition) {
+      setError('Please select a business and enter a position.');
+      return;
+    }
+
+    setIsPromoSubmitting(true);
+    setError(null);
+    
+    try {
+      const payload = {
+        businessId: parseInt(selectedBusinessId),
+        position: selectedPosition,
+        isApproved: true
+      };
+
+      await addPromotion(payload);
+      handleClosePromoModal();
+      await fetchAllData();
+    } catch (err) {
+      console.error('Failed to add promotion:', err);
+      setError(err.message || 'Failed to add promotion.');
+    } finally {
+      setIsPromoSubmitting(false);
+    }
+  };
+
+  // ==================== OFFERS FUNCTIONS ====================
+  const handleOpenOfferModal = (offer = null) => {
+    if (offer) {
+      setEditingOffer(offer);
+      setOfferFormData({
+        redirectionUrl: offer.redirectionUrl || '',
+        position: offer.position || '',
+        image: null,
+        video: null,
+      });
+      setPreviewImage(offer.imageUrl || null);
+      setPreviewVideo(offer.videoUrl || null);
+    } else {
+      setEditingOffer(null);
+      setOfferFormData({
+        redirectionUrl: '',
+        position: '',
+        image: null,
+        video: null,
+      });
+      setPreviewImage(null);
+      setPreviewVideo(null);
+    }
+    setShowOfferModal(true);
+  };
+
+  const handleCloseOfferModal = () => {
+    setShowOfferModal(false);
+    setEditingOffer(null);
+    setOfferFormData({
+      redirectionUrl: '',
+      position: '',
+      image: null,
+      video: null,
+    });
+    setPreviewImage(null);
+    setPreviewVideo(null);
+  };
+
+  const handleOfferInputChange = (e) => {
+    const { name, value } = e.target;
+    setOfferFormData(prev => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmitNewPromotion = async (e) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setOfferFormData(prev => ({
+        ...prev,
+        image: file,
+      }));
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
+
+  const handleVideoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setOfferFormData(prev => ({
+        ...prev,
+        video: file,
+      }));
+      setPreviewVideo(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmitOffer = async (e) => {
     e.preventDefault();
-
-    // Basic validation - enhance as needed
-    if (!newPromotionData.businessId || !newPromotionData.position /* Add other required fields here */) {
-      alert("Business ID and Position (and other required fields) are required.");
+    
+    if (!offerFormData.redirectionUrl || !offerFormData.position) {
+      setError('Please fill in all required fields.');
       return;
     }
-    setIsSubmitting(true);
-    setError(null); 
+
+    if (!editingOffer && !offerFormData.image && !offerFormData.video) {
+      setError('Please upload at least an image or video.');
+      return;
+    }
+
+    setIsOfferSubmitting(true);
+    setError(null);
+
     try {
-      const payload = {
-        ...newPromotionData,
-        businessId: parseInt(newPromotionData.businessId, 10),
-        // Ensure all fields expected by your '/promotions/add' API are included in payload
-        // For example, if your API expects title, description, discountPercentage, startDate, endDate:
-        // title: newPromotionData.title,
-        // description: newPromotionData.description,
-        // discountPercentage: parseFloat(newPromotionData.discountPercentage),
-        // startDate: newPromotionData.startDate,
-        // endDate: newPromotionData.endDate,
-        // isApproved: true, // Or handle this based on your logic
-      };
-      const addedPromotion = await addPromotion(payload);
-      console.log("Promotion added successfully:", addedPromotion);
+      const submitFormData = new FormData();
+      submitFormData.append('redirectionUrl', offerFormData.redirectionUrl);
+      submitFormData.append('position', offerFormData.position);
       
-      setShowAddModal(false);
-      setNewPromotionData({ businessId: '', position: '' /* Reset other fields */ }); // Reset form
-      fetchPromotions(); // Refetch promotions to show the new one
-      alert("Promotion added successfully!"); // Or use a more subtle notification
+      if (offerFormData.image) {
+        submitFormData.append('image', offerFormData.image);
+      }
+      if (offerFormData.video) {
+        submitFormData.append('video', offerFormData.video);
+      }
+
+      if (editingOffer) {
+        await updateOffer(editingOffer.id, submitFormData);
+      } else {
+        await createOffer(submitFormData);
+      }
+
+      handleCloseOfferModal();
+      await fetchAllData();
     } catch (err) {
-      console.error("Failed to add promotion:", err);
-      setError(err.message || "Failed to add promotion."); // Set error state to display it
-      alert(`Failed to add promotion: ${err.message}`);
+      console.error('Failed to submit offer:', err);
+      setError(err.message || 'Failed to submit offer.');
     } finally {
-      setIsSubmitting(false);
+      setIsOfferSubmitting(false);
     }
   };
 
-  const handleDeletePromotion = async (promotionId) => {
-    if (!window.confirm("Are you sure you want to delete this promotion?")) {
+  const handleDeleteOffer = async (offerId) => {
+    if (!window.confirm('Are you sure you want to delete this offer?')) {
       return;
     }
 
-    setDeletingItemId(promotionId);
-    setError(null); // Clear previous errors
+    setDeletingOfferId(offerId);
+    setError(null);
 
     try {
-      console.log(`Attempting to delete promotion with ID: ${promotionId}`); // Added for debugging
-      await deletePromotionById(promotionId);
-      setPromotions(prevPromotions => prevPromotions.filter(promo => promo.id !== promotionId));
-      console.log(`Promotion ${promotionId} deleted successfully from UI.`); // Added for debugging
-      // No alert needed, visual removal is feedback.
+      await deleteOffer(offerId);
+      setOffers(prevOffers => 
+        prevOffers.filter(offer => offer.id !== offerId)
+      );
     } catch (err) {
-      console.error(`Failed to delete promotion ${promotionId}:`, err);
-      setError(err.message || "Failed to delete promotion.");
-      // No alert for error, error message will be displayed on the page.
+      console.error(`Failed to delete offer ${offerId}:`, err);
+      setError(err.message || 'Failed to delete offer.');
     } finally {
-      setDeletingItemId(null);
+      setDeletingOfferId(null);
     }
   };
 
-  if (loading && promotions.length === 0) return <div className={`promotions-page ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}><p className="loading-message">Loading promotions...</p></div>;
-  // Keep error display for fetch errors, form errors will be handled separately if needed
-  if (error && promotions.length === 0) return <div className={`promotions-page ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}><p className="error-message">Error fetching promotions: {error}</p></div>;
-
+  if (loading && promotions.length === 0 && offers.length === 0) {
+    return (
+      <div className={`promotions-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+        <PageHeader title="Promotions & Offers" showBreadcrumb={true} />
+        <p className="loading-message">Loading data...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={`promotions-page ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-      <div className="promotions-header">
-        <h1>Promotions</h1>
-        {/* <button className="add-promo-button" onClick={() => setShowAddModal(true)}>
-          + Add Promotion
-        </button> */}
+    <div className={`promotions-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      <PageHeader title="Promotions & Offers" showBreadcrumb={true} />
+
+      {error && !showPromoModal && !showOfferModal && <p className="error-message">{error}</p>}
+
+      {/* ==================== PROMOTIONS SECTION ==================== */}
+      <div className="section-wrapper">
+        <h2 className="section-title">Promotions</h2>
+        <div className="promotions-content-box">
+          <div className="promotions-cards-grid">
+            {/* Existing Promotion Cards */}
+            {promotions.map(promo => {
+              const business = getBusinessById(promo.businessId);
+              const imageUrl = business?.images?.[0]?.url || 'https://via.placeholder.com/300x200?text=No+Image';
+              const proprietorName = business?.proprietorName || 'Unknown Business';
+
+              return (
+                <div key={promo.id} className="promotion-card">
+                  <div className="promotion-image-container">
+                    <img 
+                      src={imageUrl} 
+                      alt={proprietorName}
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
+                      }}
+                    />
+                    <div className="promotion-position-badge">
+                      Position: {promo.position}
+                    </div>
+                  </div>
+                  <div className="promotion-info-box">
+                    <h3 className="promotion-business-name">{proprietorName}</h3>
+                    <p className="promotion-business-id">ID: {promo.businessId}</p>
+                  </div>
+                  <button
+                    className="remove-promotion-button"
+                    onClick={() => handleDeletePromotion(promo.id)}
+                    disabled={deletingPromoId === promo.id}
+                    title="Remove Promotion"
+                  >
+                    {deletingPromoId === promo.id ? (
+                      <FaSpinner className="spinner-small" />
+                    ) : (
+                      'REMOVE'
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+
+            {/* Add New Promotion Card */}
+            <div className="add-promotion-card" onClick={handleOpenPromoModal}>
+              <div className="add-promotion-content">
+                <div className="add-image-placeholder">
+                  <div className="add-icon-circle">
+                    <span className="add-icon">+</span>
+                  </div>
+                  <p className="add-image-text">ADD PROMOTION</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {promotions.length === 0 && !loading && (
+            <p className="no-promotions-message">No promotions available. Add your first promotion!</p>
+          )}
+        </div>
       </div>
 
-      {/* Display general page errors (e.g., from deletion) here, but not if modal is open and showing its own error */}
-      {error && !showAddModal && <p className="error-message" style={{ textAlign: 'center', color: 'red', marginTop: '10px' }}>{error}</p>}
+      {/* ==================== OFFERS SECTION ==================== */}
+      <div className="section-wrapper">
+        <h2 className="section-title">Offers</h2>
+        <div className="offers-content-box">
+          <div className="offers-cards-grid">
+            {/* Existing Offer Cards */}
+            {offers.map(offer => (
+              <div key={offer.id} className="offer-card">
+                <div className="offer-media-container">
+                  {offer.imageUrl ? (
+                    <img 
+                      src={offer.imageUrl} 
+                      alt={`Offer ${offer.id}`}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  ) : offer.videoUrl ? (
+                    <video 
+                      src={offer.videoUrl}
+                      controls
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div className="no-media-placeholder">
+                      <span>No Media</span>
+                    </div>
+                  )}
+                  <div className="offer-position-badge">
+                    Position: {offer.position}
+                  </div>
+                </div>
+                <div className="offer-info-box">
+                  <p className="offer-url">
+                    <strong>URL:</strong> <a href={offer.redirectionUrl} target="_blank" rel="noopener noreferrer">Link</a>
+                  </p>
+                </div>
+                <div className="offer-actions">
+                  <button
+                    onClick={() => handleOpenOfferModal(offer)}
+                    className="edit-offer-button"
+                    disabled={isOfferSubmitting}
+                    title="Edit Offer"
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteOffer(offer.id)}
+                    className="delete-offer-button"
+                    disabled={deletingOfferId === offer.id}
+                    title="Delete Offer"
+                  >
+                    {deletingOfferId === offer.id ? (
+                      <FaSpinner className="spinner-icon" />
+                    ) : (
+                      <FaTrash />
+                    )}
+                  </button>
+                </div>
+              </div>
+            ))}
 
-      
-
-      <div className="promotions-grid">
-        {/* Add Promotion Card */}
-        <div className="add-promotion-card" onClick={() => setShowAddModal(true)}>
-          <IoMdAddCircleOutline className="add-promo-icon" size={50} />
-          <p>Add New Promotion</p>
-        </div>
-
-        {/* Existing Promotion Cards */}
-        {promotions.map(promo => (
-          <div key={promo.id} className="promotion-card">
-            <button
-              className="delete-promo-button"
-              onClick={() => handleDeletePromotion(promo.id)}
-              disabled={deletingItemId === promo.id || isSubmitting}
-              aria-label="Delete promotion"
-            >
-              {deletingItemId === promo.id ? <span className="spinner-small"></span> : <FaTrash />}
-            </button>
-            {/* You'll need to adjust what's displayed based on your promotion object structure */}
-            <h3>{promo.title || `Business ID: ${promo.businessId}`}</h3>
-            <p>Position: {promo.position}</p>
-            {promo.description && <p>Desc: {promo.description}</p>}
-            {promo.discountPercentage && <p>Discount: {promo.discountPercentage}%</p>}
-            {promo.startDate && <p>Starts: {new Date(promo.startDate).toLocaleDateString()}</p>}
-            {promo.endDate && <p>Ends: {new Date(promo.endDate).toLocaleDateString()}</p>}
-            <p className={`status ${promo.isApproved ? 'approved' : 'pending'}`}>
-              Status: {promo.isApproved ? 'Approved' : 'Pending'}
-            </p>
-            {/* Add more details or actions (edit/delete) here if needed */}
+            {/* Add New Offer Card */}
+            <div className="add-offer-card" onClick={() => handleOpenOfferModal()}>
+              <div className="add-offer-content">
+                <div className="add-offer-placeholder">
+                  <div className="add-icon-circle">
+                    <span className="add-icon">+</span>
+                  </div>
+                  <p className="add-offer-text">ADD OFFER</p>
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
-          {promotions.length === 0 && !loading && !error && <p>No promotions found.</p>}
-           </div>
 
-      {/* Add Promotion Modal */}
-      {showAddModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Add New Promotion</h2>
-                {error && showAddModal && <p className="error-message" style={{textAlign: 'center'}}>{error}</p>} {/* Display form submission error specifically for modal */}
-            <form onSubmit={handleSubmitNewPromotion}>
-              <div>
-                <label htmlFor="businessId">Business ID*:</label>
-                <input type="number" id="businessId" name="businessId" value={newPromotionData.businessId} onChange={handleInputChange} required />
+          {offers.length === 0 && !loading && (
+            <p className="no-offers-message">No offers available. Add your first offer!</p>
+          )}
+        </div>
+      </div>
+
+      {/* ==================== PROMOTION MODAL ==================== */}
+      {showPromoModal && (
+        <div className="modal-overlay" onClick={handleClosePromoModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Add New Promotion</h2>
+              <button className="modal-close-button" onClick={handleClosePromoModal}>×</button>
+            </div>
+
+            {error && showPromoModal && <p className="modal-error-message">{error}</p>}
+
+            <form onSubmit={handleSubmitPromotion}>
+              <div className="modal-form-group">
+                <label htmlFor="business-search">Search Business by Name:</label>
+                <input
+                  type="text"
+                  id="business-search"
+                  placeholder="Search by proprietor name or business name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="modal-search-input"
+                />
               </div>
-              <div>
-                <label htmlFor="position">Position*:</label>
-                <input type="text" id="position" name="position" value={newPromotionData.position} onChange={handleInputChange} required />
+
+              <div className="modal-form-group">
+                <label htmlFor="business-select">Select Business*:</label>
+                <select
+                  id="business-select"
+                  value={selectedBusinessId}
+                  onChange={(e) => setSelectedBusinessId(e.target.value)}
+                  className="modal-select"
+                  required
+                >
+                  <option value="">-- Select a Business --</option>
+                  {filteredBusinesses.map(business => (
+                    <option key={business.id} value={business.id}>
+                      {business.proprietorName || business.businessName} (ID: {business.id})
+                    </option>
+                  ))}
+                </select>
+                {filteredBusinesses.length === 0 && searchTerm && (
+                  <p className="no-results-text">No businesses found matching your search.</p>
+                )}
               </div>
-              {/* 
-                Add other fields required by your API for adding a promotion.
-                For example:
-              <div>
-                <label htmlFor="title">Title*:</label>
-                <input type="text" id="title" name="title" value={newPromotionData.title || ''} onChange={handleInputChange} required />
+
+              <div className="modal-form-group">
+                <label htmlFor="position-input">Position*:</label>
+                <input
+                  type="text"
+                  id="position-input"
+                  placeholder="Enter position (e.g., 1, 2, 3...)"
+                  value={selectedPosition}
+                  onChange={(e) => setSelectedPosition(e.target.value)}
+                  className="modal-input"
+                  required
+                />
+                <small className="input-hint">Position determines the order of display (1 = first)</small>
               </div>
-              <div>
-                <label htmlFor="description">Description:</label>
-                <textarea id="description" name="description" value={newPromotionData.description || ''} onChange={handleInputChange} />
+
+              <div className="modal-form-actions">
+                <button 
+                  type="button" 
+                  onClick={handleClosePromoModal} 
+                  className="modal-cancel-button"
+                  disabled={isPromoSubmitting}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="modal-submit-button"
+                  disabled={isPromoSubmitting || !selectedBusinessId || !selectedPosition}
+                >
+                  {isPromoSubmitting ? (
+                    <>
+                      <FaSpinner className="spinner-small" /> Adding...
+                    </>
+                  ) : (
+                    'Add Promotion'
+                  )}
+                </button>
               </div>
-              <div>
-                <label htmlFor="discountPercentage">Discount %*:</label>
-                <input type="number" id="discountPercentage" name="discountPercentage" value={newPromotionData.discountPercentage || ''} onChange={handleInputChange} required />
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ==================== OFFER MODAL ==================== */}
+      {showOfferModal && (
+        <div className="modal-overlay" onClick={handleCloseOfferModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{editingOffer ? 'Edit Offer' : 'Add New Offer'}</h2>
+              <button className="modal-close-button" onClick={handleCloseOfferModal}>×</button>
+            </div>
+
+            {error && showOfferModal && <p className="modal-error-message">{error}</p>}
+
+            <form onSubmit={handleSubmitOffer}>
+              <div className="modal-form-group">
+                <label htmlFor="redirectionUrl">Redirection URL*:</label>
+                <input
+                  type="url"
+                  id="redirectionUrl"
+                  name="redirectionUrl"
+                  placeholder="https://example.com"
+                  value={offerFormData.redirectionUrl}
+                  onChange={handleOfferInputChange}
+                  className="modal-input"
+                  required
+                />
               </div>
-              <div>
-                <label htmlFor="startDate">Start Date*:</label>
-                <input type="date" id="startDate" name="startDate" value={newPromotionData.startDate || ''} onChange={handleInputChange} required />
+
+              <div className="modal-form-group">
+                <label htmlFor="offerPosition">Position*:</label>
+                <input
+                  type="number"
+                  id="offerPosition"
+                  name="position"
+                  placeholder="Enter position (1, 2, 3...)"
+                  value={offerFormData.position}
+                  onChange={handleOfferInputChange}
+                  className="modal-input"
+                  required
+                />
+                <small className="input-hint">Position determines the order of display (1 = first)</small>
               </div>
-              <div>
-                <label htmlFor="endDate">End Date*:</label>
-                <input type="date" id="endDate" name="endDate" value={newPromotionData.endDate || ''} onChange={handleInputChange} required />
+
+              <div className="modal-form-group">
+                <label htmlFor="image">Image (Optional):</label>
+                <input
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="modal-file-input"
+                />
+                {previewImage && (
+                  <div className="media-preview">
+                    <img src={previewImage} alt="Preview" />
+                  </div>
+                )}
               </div>
-              */}
-              <div style={{ marginTop: '20px', textAlign: 'right' }}>
-                <button type="button" onClick={() => setShowAddModal(false)} style={{ marginRight: '10px' }}>Cancel</button>
-                <button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? 'Adding...' : 'Add Promotion'}
+
+              <div className="modal-form-group">
+                <label htmlFor="video">Video (Optional):</label>
+                <input
+                  type="file"
+                  id="video"
+                  accept="video/*"
+                  onChange={handleVideoChange}
+                  className="modal-file-input"
+                />
+                {previewVideo && (
+                  <div className="media-preview">
+                    <video controls>
+                      <source src={previewVideo} />
+                    </video>
+                  </div>
+                )}
+              </div>
+
+              <div className="modal-form-actions">
+                <button 
+                  type="button" 
+                  onClick={handleCloseOfferModal} 
+                  className="modal-cancel-button"
+                  disabled={isOfferSubmitting}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="modal-submit-button"
+                  disabled={isOfferSubmitting || !offerFormData.redirectionUrl || !offerFormData.position}
+                >
+                  {isOfferSubmitting ? (
+                    <>
+                      <FaSpinner className="spinner-icon" /> {editingOffer ? 'Updating...' : 'Adding...'}
+                    </>
+                  ) : (
+                    editingOffer ? 'Update Offer' : 'Add Offer'
+                  )}
                 </button>
               </div>
             </form>
@@ -217,3 +631,303 @@ function Promotions({ isSidebarOpen }) {
 }
 
 export default Promotions;
+
+// import { useState, useEffect } from 'react';
+// import { 
+//   getAllPromotions, 
+//   addPromotion, 
+//   deletePromotionById, 
+//   getAllBusinessPartners 
+// } from '../services/apiService';
+// import { FaTrash } from 'react-icons/fa';
+// import '../styles/Promotions.css';
+
+// function Promotions({ isSidebarOpen }) {
+//   const [promotions, setPromotions] = useState([]);
+//   const [businesses, setBusinesses] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [deletingItemId, setDeletingItemId] = useState(null);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+//   // Modal states
+//   const [showAddModal, setShowAddModal] = useState(false);
+//   const [selectedBusinessId, setSelectedBusinessId] = useState('');
+//   const [selectedPosition, setSelectedPosition] = useState('');
+//   const [searchTerm, setSearchTerm] = useState('');
+
+//   useEffect(() => {
+//     fetchData();
+//   }, []);
+
+//   const fetchData = async () => {
+//     setLoading(true);
+//     setError(null);
+//     try {
+//       const [promotionsData, businessesData] = await Promise.all([
+//         getAllPromotions(),
+//         getAllBusinessPartners()
+//       ]);
+      
+//       // Only get approved businesses
+//       const approvedBusinesses = (businessesData || []).filter(b => b.isApproved);
+      
+//       setPromotions(promotionsData || []);
+//       setBusinesses(approvedBusinesses);
+//       console.log('Promotions:', promotionsData);
+//       console.log('Approved Businesses:', approvedBusinesses);
+//     } catch (err) {
+//       console.error('Failed to fetch data:', err);
+//       setError(err.message || 'Failed to load data.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const getBusinessById = (businessId) => {
+//     return businesses.find(b => b.id === businessId);
+//   };
+
+//   // Filter businesses based on search term
+//   const filteredBusinesses = businesses.filter(business =>
+//     business.proprietorName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     business.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//     business.id?.toString().includes(searchTerm)
+//   );
+
+//   const handleDeletePromotion = async (promotionId) => {
+//     if (!window.confirm('Are you sure you want to remove this promotion?')) {
+//       return;
+//     }
+
+//     setDeletingItemId(promotionId);
+//     try {
+//       await deletePromotionById(promotionId);
+//       setPromotions(prevPromotions => 
+//         prevPromotions.filter(promo => promo.id !== promotionId)
+//       );
+//     } catch (err) {
+//       console.error(`Failed to delete promotion ${promotionId}:`, err);
+//       setError(err.message || 'Failed to delete promotion.');
+//     } finally {
+//       setDeletingItemId(null);
+//     }
+//   };
+
+//   const handleOpenModal = () => {
+//     setShowAddModal(true);
+//     setSelectedBusinessId('');
+//     setSelectedPosition('');
+//     setSearchTerm('');
+//     setError(null);
+//   };
+
+//   const handleCloseModal = () => {
+//     setShowAddModal(false);
+//     setSelectedBusinessId('');
+//     setSelectedPosition('');
+//     setSearchTerm('');
+//     setError(null);
+//   };
+
+//   const handleSubmitPromotion = async (e) => {
+//     e.preventDefault();
+    
+//     if (!selectedBusinessId || !selectedPosition) {
+//       setError('Please select a business and enter a position.');
+//       return;
+//     }
+
+//     setIsSubmitting(true);
+//     setError(null);
+    
+//     try {
+//       const payload = {
+//         businessId: parseInt(selectedBusinessId),
+//         position: selectedPosition,
+//         isApproved: true
+//       };
+
+//       const addedPromotion = await addPromotion(payload);
+//       console.log('Promotion added successfully:', addedPromotion);
+      
+//       handleCloseModal();
+//       await fetchData();
+//     } catch (err) {
+//       console.error('Failed to add promotion:', err);
+//       setError(err.message || 'Failed to add promotion.');
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   if (loading && promotions.length === 0) {
+//     return (
+//       <div className={`promotions-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+//         <div className="promotions-header-box">
+//           <h1 className="promotions-title">Promotions</h1>
+//         </div>
+//         <p className="loading-message">Loading promotions...</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className={`promotions-container ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+//       <div className="promotions-header-box">
+//         <h1 className="promotions-title">Promotions</h1>
+//       </div>
+
+//       {error && !showAddModal && <p className="error-message">{error}</p>}
+
+//       <div className="promotions-content-box">
+//         <div className="promotions-cards-grid">
+//           {/* Existing Promotion Cards */}
+//           {promotions.map(promo => {
+//             const business = getBusinessById(promo.businessId);
+//             const imageUrl = business?.images?.[0]?.url || 'https://via.placeholder.com/300x200?text=No+Image';
+//             const proprietorName = business?.proprietorName || 'Unknown Business';
+
+//             return (
+//               <div key={promo.id} className="promotion-card">
+//                 <div className="promotion-image-container">
+//                   <img 
+//                     src={imageUrl} 
+//                     alt={proprietorName}
+//                     onError={(e) => {
+//                       e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
+//                     }}
+//                   />
+//                   <div className="promotion-position-badge">
+//                     Position: {promo.position}
+//                   </div>
+//                 </div>
+//                 <div className="promotion-info-box">
+//                   <h3 className="promotion-business-name">{proprietorName}</h3>
+//                   <p className="promotion-business-id">ID: {promo.businessId}</p>
+//                 </div>
+//                 <button
+//                   className="remove-promotion-button"
+//                   onClick={() => handleDeletePromotion(promo.id)}
+//                   disabled={deletingItemId === promo.id}
+//                   title="Remove Promotion"
+//                 >
+//                   {deletingItemId === promo.id ? (
+//                     <span className="spinner-small"></span>
+//                   ) : (
+//                     'REMOVE'
+//                   )}
+//                 </button>
+//               </div>
+//             );
+//           })}
+
+//           {/* Add New Promotion Card */}
+//           <div className="add-promotion-card" onClick={handleOpenModal}>
+//             <div className="add-promotion-content">
+//               <div className="add-image-placeholder">
+//                 <div className="add-icon-circle">
+//                   <span className="add-icon">+</span>
+//                 </div>
+//                 <p className="add-image-text">ADD PROMOTION</p>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {promotions.length === 0 && !loading && (
+//           <p className="no-promotions-message">No promotions available. Add your first promotion!</p>
+//         )}
+//       </div>
+
+//       {/* Add Promotion Modal */}
+//       {showAddModal && (
+//         <div className="modal-overlay" onClick={handleCloseModal}>
+//           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+//             <div className="modal-header">
+//               <h2>Add New Promotion</h2>
+//               <button className="modal-close-button" onClick={handleCloseModal}>×</button>
+//             </div>
+
+//             {error && showAddModal && <p className="modal-error-message">{error}</p>}
+
+//             <form onSubmit={handleSubmitPromotion}>
+//               <div className="modal-form-group">
+//                 <label htmlFor="business-search">Search Business by Name:</label>
+//                 <input
+//                   type="text"
+//                   id="business-search"
+//                   placeholder="Search by proprietor name or business name..."
+//                   value={searchTerm}
+//                   onChange={(e) => setSearchTerm(e.target.value)}
+//                   className="modal-search-input"
+//                 />
+//               </div>
+
+//               <div className="modal-form-group">
+//                 <label htmlFor="business-select">Select Business*:</label>
+//                 <select
+//                   id="business-select"
+//                   value={selectedBusinessId}
+//                   onChange={(e) => setSelectedBusinessId(e.target.value)}
+//                   className="modal-select"
+//                   required
+//                 >
+//                   <option value="">-- Select a Business --</option>
+//                   {filteredBusinesses.map(business => (
+//                     <option key={business.id} value={business.id}>
+//                       {business.proprietorName || business.businessName} (ID: {business.id})
+//                     </option>
+//                   ))}
+//                 </select>
+//                 {filteredBusinesses.length === 0 && searchTerm && (
+//                   <p className="no-results-text">No businesses found matching your search.</p>
+//                 )}
+//               </div>
+
+//               <div className="modal-form-group">
+//                 <label htmlFor="position-input">Position*:</label>
+//                 <input
+//                   type="text"
+//                   id="position-input"
+//                   placeholder="Enter position (e.g., 1, 2, 3...)"
+//                   value={selectedPosition}
+//                   onChange={(e) => setSelectedPosition(e.target.value)}
+//                   className="modal-input"
+//                   required
+//                 />
+//                 <small className="input-hint">Position determines the order of display (1 = first)</small>
+//               </div>
+
+//               <div className="modal-form-actions">
+//                 <button 
+//                   type="button" 
+//                   onClick={handleCloseModal} 
+//                   className="modal-cancel-button"
+//                   disabled={isSubmitting}
+//                 >
+//                   Cancel
+//                 </button>
+//                 <button 
+//                   type="submit" 
+//                   className="modal-submit-button"
+//                   disabled={isSubmitting || !selectedBusinessId || !selectedPosition}
+//                 >
+//                   {isSubmitting ? (
+//                     <>
+//                       <span className="spinner-small"></span> Adding...
+//                     </>
+//                   ) : (
+//                     'Add Promotion'
+//                   )}
+//                 </button>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Promotions;

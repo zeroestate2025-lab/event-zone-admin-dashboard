@@ -1,43 +1,46 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function SidebarComponent({ handleLogout }) {
+  // Use NavLink to get automatic active state
   return (
     <div className="sidebar">
       {/* Menu */}
       <nav>
         <ul>
           <li>
-            <Link to="/" className="active">
+            <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/user-management">
+            <NavLink to="/user-management" className={({ isActive }) => (isActive ? 'active' : '')}>
               User Management
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/business">
+            <NavLink to="/business" className={({ isActive }) => (isActive ? 'active' : '')}>
               Business Management
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/pending-approvals">
+            <NavLink to="/pending-approvals" className={({ isActive }) => (isActive ? 'active' : '')}>
               Pending Approvals
-            </Link>
+            </NavLink>
           </li>
-      
-          
           <li>
-            <Link to="/promotions">
+            <NavLink to="/promotions" className={({ isActive }) => (isActive ? 'active' : '')}>
               Promotions
-            </Link>
+            </NavLink>
           </li>
-          
           <li>
-            <Link to="/subscriptions">
-              Subscriptions &  Payments
-            </Link>
+            <NavLink to="/events" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Events
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/subscriptions" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Subscriptions & Payments
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -47,15 +50,15 @@ function SidebarComponent({ handleLogout }) {
         <hr className="sidebar-separator" />
         <ul>
           <li>
-            <Link to="#" onClick={handleLogout}>
+            <a href="#" onClick={handleLogout}>
               Logout
-            </Link>
+            </a>
           </li>
-          <li>
-            <Link to="/settings">
+          {/* <li>
+            <NavLink to="/settings" className={({ isActive }) => (isActive ? 'active' : '')}>
               Settings
-            </Link>
-          </li>
+            </NavLink>
+          </li> */}
         </ul>
       </div>
     </div>

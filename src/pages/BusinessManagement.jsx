@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
+import PageHeader from '../components/PageHeader';
 import '../styles/BusinessManagement.css';
-// Assuming your API service functions are in a file like 'apiService.js'
-// You might need to adjust the path based on your project structure.
-import { getAllBusinessPartners } from '../services/apiService'; // getBusinessPartnerCount might not be needed if we count client-side
-import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate
-
+import { getAllBusinessPartners, deleteBusinessPartner } from '../services/apiService';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaTrash, FaSpinner } from 'react-icons/fa';
 
 function BusinessManagement({ isSidebarOpen }) {
   const [allBusinesses, setAllBusinesses] = useState([]);
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [errorList, setErrorList] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [deletingId, setDeletingId] = useState(null);
 
-  // We will derive approvedVendorCount from the allBusinesses list
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   // State for the service type dropdown in the header
   const [isServiceDropdownOpen, setIsServiceDropdownOpen] = useState(false);
@@ -30,97 +30,130 @@ function BusinessManagement({ isSidebarOpen }) {
   // Handle selection of a service option
   const handleServiceSelect = (value) => {
     setSelectedService(value);
-    setIsServiceDropdownOpen(false); // Close the dropdown after selection
+    setIsServiceDropdownOpen(false);
   };
 
   // Effect to fetch all business partners list
   useEffect(() => {
-    const loadVendors = async () => {
-      try {
-        setIsLoadingList(true);
-        setErrorList(null);
-        const data = await getAllBusinessPartners();
-        console.log("Fetched All Businesses (Raw from API in BusinessManagement):", JSON.stringify(data, null, 2));
-        // Filter for approved businesses
-        setAllBusinesses((data || []).filter(business => business.isApproved));
-        // Initially, filteredBusinesses should also respect the approved filter.
-        // If you want to show all and then filter, the logic for allBusinesses and filteredBusinesses initialization would differ.
-        // For now, assuming filteredBusinesses should also start with approved ones.
-        setFilteredBusinesses((data || []).filter(business => business.isApproved)); 
-      } catch (err) {
-        setErrorList(err);
-        console.error("Failed to fetch business partners list:", err);
-        setAllBusinesses([]);
-        setFilteredBusinesses([]);
-      } finally {
-        setIsLoadingList(false);
-      }
-    };
     loadVendors();
   }, []);
 
-  // Effect to filter businesses when selectedService or allBusinesses changes
-  useEffect(() => {
-    // allBusinesses state already contains only approved businesses from the initial load
-    const businessesToFilter = allBusinesses;
+  const loadVendors = async () => {
+    try {
+      setIsLoadingList(true);
+      setErrorList(null);
+      const data = await getAllBusinessPartners();
+      console.log("Fetched All Businesses:", JSON.stringify(data, null, 2));
+      setAllBusinesses((data || []).filter(business => business.isApproved));
+      setFilteredBusinesses((data || []).filter(business => business.isApproved)); 
+    } catch (err) {
+      setErrorList(err);
+      console.error("Failed to fetch business partners list:", err);
+      setAllBusinesses([]);
+      setFilteredBusinesses([]);
+    } finally {
+      setIsLoadingList(false);
+    }
+  };
 
-    if (selectedService === 'All Services') {
-      setFilteredBusinesses(businessesToFilter);
-    } else {
-      setFilteredBusinesses(
-        businessesToFilter.filter(business => business.serviceProvided === selectedService)
+  // Effect to filter businesses when selectedService, searchTerm, or allBusinesses changes
+  useEffect(() => {
+    let businessesToFilter = allBusinesses;
+
+    // Filter by service
+    if (selectedService !== 'All Services') {
+      businessesToFilter = businessesToFilter.filter(
+        business => business.serviceProvided === selectedService
       );
     }
-  }, [selectedService, allBusinesses]);
 
-  const approvedVendorCount = allBusinesses.length; // Since allBusinesses now only stores approved ones
+    // Filter by search term
+    if (searchTerm) {
+      businessesToFilter = businessesToFilter.filter(business =>
+        business.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        business.phoneNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        business.id?.toString().includes(searchTerm)
+      );
+    }
 
+    setFilteredBusinesses(businessesToFilter);
+  }, [selectedService, searchTerm, allBusinesses]);
+
+  // Handle delete business
+  const handleDeleteBusiness = async (businessId, businessName) => {
+    if (!window.confirm(`Are you sure you want to delete "${businessName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    setDeletingId(businessId);
+    setErrorList(null);
+
+    try {
+      await deleteBusinessPartner(businessId);
+      
+      // Remove from local state
+      setAllBusinesses(prevBusinesses => 
+        prevBusinesses.filter(business => business.id !== businessId)
+      );
+      setFilteredBusinesses(prevBusinesses => 
+        prevBusinesses.filter(business => business.id !== businessId)
+      );
+
+      console.log(`Business ${businessId} deleted successfully`);
+    } catch (err) {
+      console.error(`Failed to delete business ${businessId}:`, err);
+      setErrorList(err.message || 'Failed to delete business. Please try again.');
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const approvedVendorCount = allBusinesses.length;
 
   return (
     <div className={`business-management ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-      {/* Header Section */}
-      <div className="business-management-header">
-        <div className="header-left">
-          <span className="back-arrow" onClick={() => navigate(-1)} style={{cursor: 'pointer'}}>←</span>
-          <h1>Business Management</h1>
+      <PageHeader title="Business Management" showBreadcrumb={true} />
+
+      {/* Header Actions */}
+      <div className="business-management-actions">
+        <div className="search-bar">
+          <input 
+            type="text" 
+            placeholder="Search" 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <span className="search-icon">🔍</span>
         </div>
-        <div className="header-right">
-          {/* <div className="search-bar">
-            <input type="text" placeholder="Search" />
-            <span className="search-icon">🔍</span>
-          </div> */}
-          <div className="total-vendors">
-            <span>Total Approved Vendors: {isLoadingList ? '...' : approvedVendorCount}</span>
-          </div>
+        <div className="total-vendors">
+          Total Vendors : {isLoadingList ? '...' : approvedVendorCount}
         </div>
       </div>
 
       {isLoadingList && <p className="loading-message">Loading vendors list...</p>}
       {errorList && (
         <p className="error-message">
-          Error fetching vendors list: {typeof errorList === 'string' ? errorList : errorList.message || 'Unknown error'}
+          Error: {typeof errorList === 'string' ? errorList : errorList.message || 'Unknown error'}
         </p>
       )}
-
 
       {/* Table Section */}
       <div className="business-table-container">
         <table className="business-table">
           <thead>
             <tr>
-              <th>Business ID</th>
               <th>Name</th>
               <th>
-                <div className="custom-dropdown">
-                  <div className="dropdown-header" onClick={toggleServiceDropdown}>
-                    {selectedService} <span className="dropdown-arrow">▼</span>
+                <div className="catering-dropdown">
+                  <div className="catering-dropdown-header" onClick={toggleServiceDropdown}>
+                    Catering <span className="catering-dropdown-arrow">▼</span>
                   </div>
                   {isServiceDropdownOpen && (
-                    <ul className="dropdown-options">
+                    <ul className="catering-dropdown-options">
                       {serviceFilterOptions.map((option) => (
                         <li
                           key={option}
-                          className="dropdown-option"
+                          className="catering-dropdown-option"
                           onClick={() => handleServiceSelect(option)}
                         >
                           {option}
@@ -131,41 +164,61 @@ function BusinessManagement({ isSidebarOpen }) {
                 </div>
               </th>
               <th>Phone Number</th>
+              <th>Subscription</th>
               <th>Status</th>
-              <th></th>
-
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {!isLoadingList && !errorList && filteredBusinesses.length > 0 ? (
               filteredBusinesses.map((business) => {
-                // Log the specific business object and its isApproved status right before rendering
                 console.log(
-                  `BusinessManagement - Rendering Row: ID=${business.id}, Name="${business.businessName}", isApproved=${business.isApproved} (Type: ${typeof business.isApproved})`
+                  `BusinessManagement - Rendering Row: ID=${business.id}, Name="${business.businessName}", isApproved=${business.isApproved}`
                 );
-                const isActive = business.isApproved; // isApproved should already be a boolean
+                const isActive = business.isApproved;
+                const isDeleting = deletingId === business.id;
+                
                 return (
                   <tr key={business.id}>
-                    <td>{business.id}</td>
                     <td>{business.businessName}</td>
-                    <td>{business.serviceProvided}</td>
+                    <td>{business.serviceProvided || 'Catering'}</td>
                     <td>{business.phoneNumber}</td>
+                    <td>3 Months</td>
                     <td>
-                      <span className={`status ${isActive ? 'active' : 'inactive'}`}>
+                      <span className={`status-badge ${isActive ? 'active' : 'inactive'}`}>
                         {isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                     <td>
-                      <Link to={`/business-profile/${business.id}`} className="view-profile">
-                        view profile
-                      </Link>
+                    <td>
+                      <div className="action-buttons">
+                        <Link 
+                          to={`/business-profile/${business.id}`} 
+                          className="view-profile-link"
+                        >
+                          view profile
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteBusiness(business.id, business.businessName)}
+                          className="delete-business-button"
+                          disabled={isDeleting}
+                          title="Delete Business"
+                        >
+                          {isDeleting ? (
+                            <FaSpinner className="spinner-icon" />
+                          ) : (
+                            <FaTrash />
+                          )}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
               })
             ) : !isLoadingList && !errorList && filteredBusinesses.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center' }}>No vendors found.</td>
+                <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>
+                  {searchTerm ? 'No vendors found matching your search.' : 'No vendors found.'}
+                </td>
               </tr>
             ) : null}
           </tbody>

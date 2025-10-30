@@ -1,0 +1,146 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Events Container */
+.events-container {
+  width: 100%;
+  padding: 0;
+  background-color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  transition: padding 0.3s ease-in-out;
+}
+
+.events-container.sidebar-open {
+  padding: 0;
+}
+
+.events-container.sidebar-closed {
+  padding: 0;
+}
+
+/* Events Content */
+.events-content {
+  padding: 32px;
+}
+
+/* Events Table Container with Black Outline */
+.events-table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 2px solid #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.events-table th,
+.events-table td {
+  padding: 18px 20px;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+}
+
+.events-table th {
+  background-color: #FC9256;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #FF8438;
+}
+
+.events-table tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.events-table tbody tr:nth-child(even) {
+  background-color: #FFF5F0;
+}
+
+.events-table tbody tr:hover {
+  background-color: #FFE8DC;
+}
+
+.events-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.events-table td {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .events-content {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .events-container {
+    padding: 0;
+  }
+
+  .events-content {
+    padding: 20px;
+  }
+
+  .events-table th,
+  .events-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+  }
+
+  .events-table th {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-content {
+    padding: 16px;
+  }
+
+  .events-table th,
+  .events-table td {
+    padding: 12px 10px;
+    font-size: 12px;
+  }
+
+  .events-table th {
+    font-size: 13px;
+  }
+}
+
+/* Scrollbar Styling */
+.events-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.events-table-container::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.events-table-container::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.events-table-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
