@@ -305,6 +305,19 @@ export const deleteOffer = async (offerId) => {
   }
 };
 
+export const updatePromotionById = async (promotionId, promotionData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/promotions/update/${promotionId}`,
+      promotionData,
+      { headers: authHeader() }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating promotion ${promotionId}:`, error);
+    throw error;
+  }
+};
 
 
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import '../styles/UserManagement.css';
 import { getAllBusinessPartners } from '../services/apiService';
+import AlertModal from '../components/AlertModal';
 
 function UserManagement({ isSidebarOpen }) {
   const [users, setUsers] = useState([]);

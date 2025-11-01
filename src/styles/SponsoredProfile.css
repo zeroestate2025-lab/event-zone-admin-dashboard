@@ -1,8 +1,8 @@
 /* Import Poppins Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Promotions Container */
-.promotions-container {
+/* Sponsored Container */
+.sponsored-container {
   width: 100%;
   padding: 0;
   background-color: #F5F5F5;
@@ -10,16 +10,12 @@
   min-height: 100vh;
 }
 
-.promotions-container.sidebar-open,
-.promotions-container.sidebar-closed {
+.sponsored-container.sidebar-open,
+.sponsored-container.sidebar-closed {
   padding: 0;
 }
 
-/* Section Wrapper */
-.section-wrapper {
-  margin-bottom: 40px;
-}
-
+/* Section Title */
 .section-title {
   font-size: 20px;
   font-weight: 700;
@@ -31,7 +27,7 @@
 }
 
 /* Content Box */
-.promotions-content-box {
+.sponsored-content-box {
   background-color: white;
   border: 3px solid #CC9966;
   border-radius: 16px;
@@ -41,14 +37,14 @@
 }
 
 /* Cards Grid */
-.promotions-cards-grid {
+.sponsored-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
 }
 
-/* Promotion Card */
-.promotion-card {
+/* Sponsored Card */
+.sponsored-card {
   background-color: white;
   border: 2px solid #E0E0E0;
   border-radius: 12px;
@@ -59,12 +55,12 @@
   flex-direction: column;
 }
 
-.promotion-card:hover {
+.sponsored-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.promotion-image-container {
+.sponsored-image-container {
   width: 100%;
   height: 220px;
   background-color: #DDDDDD;
@@ -72,18 +68,32 @@
   position: relative;
 }
 
-.promotion-image-container img {
+.sponsored-image-container img,
+.sponsored-image-container video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.promotion-card:hover .promotion-image-container img {
+.sponsored-card:hover .sponsored-image-container img,
+.sponsored-card:hover .sponsored-image-container video {
   transform: scale(1.05);
 }
 
-.promotion-position-badge {
+.no-media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sponsored-position-badge {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -98,13 +108,13 @@
   letter-spacing: 0.3px;
 }
 
-.promotion-info-box {
+.sponsored-info-box {
   padding: 20px 20px 16px 20px;
   background-color: white;
   flex: 1;
 }
 
-.promotion-business-name {
+.sponsored-title {
   font-size: 18px;
   font-weight: 600;
   color: #333;
@@ -113,7 +123,7 @@
   line-height: 1.3;
 }
 
-.promotion-business-id {
+.sponsored-id {
   font-size: 14px;
   color: #666;
   margin: 0;
@@ -122,14 +132,14 @@
 }
 
 /* ACTION BUTTONS - Professional Design */
-.promotion-actions {
+.sponsored-actions {
   display: flex;
   gap: 0;
   border-top: 1px solid #E0E0E0;
 }
 
-.edit-promotion-button,
-.remove-promotion-button {
+.edit-sponsored-button,
+.delete-sponsored-button {
   flex: 1;
   border: none;
   padding: 16px 20px;
@@ -147,8 +157,8 @@
   overflow: hidden;
 }
 
-.edit-promotion-button::before,
-.remove-promotion-button::before {
+.edit-sponsored-button::before,
+.delete-sponsored-button::before {
   content: '';
   position: absolute;
   top: 0;
@@ -159,39 +169,39 @@
   transition: left 0.3s ease;
 }
 
-.edit-promotion-button:hover::before,
-.remove-promotion-button:hover::before {
+.edit-sponsored-button:hover::before,
+.delete-sponsored-button:hover::before {
   left: 100%;
 }
 
-.edit-promotion-button {
+.edit-sponsored-button {
   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.edit-promotion-button:hover {
+.edit-sponsored-button:hover {
   background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
 }
 
-.remove-promotion-button {
+.delete-sponsored-button {
   background: linear-gradient(135deg, #DC3545 0%, #C82333 100%);
 }
 
-.remove-promotion-button:hover {
+.delete-sponsored-button:hover {
   background: linear-gradient(135deg, #C82333 0%, #BD2130 100%);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
-.edit-promotion-button:active,
-.remove-promotion-button:active {
+.edit-sponsored-button:active,
+.delete-sponsored-button:active {
   transform: translateY(0);
 }
 
-.remove-promotion-button:disabled,
-.edit-promotion-button:disabled {
+.edit-sponsored-button:disabled,
+.delete-sponsored-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
@@ -202,8 +212,8 @@
   transition: transform 0.2s ease;
 }
 
-.edit-promotion-button:hover .action-icon,
-.remove-promotion-button:hover .action-icon {
+.edit-sponsored-button:hover .action-icon,
+.delete-sponsored-button:hover .action-icon {
   transform: scale(1.15);
 }
 
@@ -213,8 +223,8 @@
   letter-spacing: 0.3px;
 }
 
-/* Add Promotion Card */
-.add-promotion-card {
+/* Add Sponsored Card */
+.add-sponsored-card {
   background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
   border: 3px dashed #999999;
   border-radius: 12px;
@@ -226,7 +236,7 @@
   min-height: 350px;
 }
 
-.add-promotion-card:hover {
+.add-sponsored-card:hover {
   border-color: #FC9256;
   border-style: solid;
   transform: translateY(-6px);
@@ -234,7 +244,7 @@
   background: linear-gradient(135deg, #fff9f3 0%, #ffffff 100%);
 }
 
-.add-promotion-content {
+.add-sponsored-content {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -242,7 +252,7 @@
   justify-content: center;
 }
 
-.add-image-placeholder {
+.add-sponsored-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -263,7 +273,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.add-promotion-card:hover .add-icon-circle {
+.add-sponsored-card:hover .add-icon-circle {
   background: linear-gradient(135deg, #FC9256 0%, #FF8438 100%);
   transform: rotate(90deg) scale(1.1);
   box-shadow: 0 6px 20px rgba(252, 146, 86, 0.4);
@@ -276,12 +286,12 @@
   transition: all 0.3s ease;
 }
 
-.add-promotion-card:hover .add-icon {
+.add-sponsored-card:hover .add-icon {
   color: white;
   transform: rotate(-90deg);
 }
 
-.add-image-text {
+.add-sponsored-text {
   font-size: 17px;
   font-weight: 700;
   color: #333;
@@ -291,119 +301,12 @@
   letter-spacing: 0.5px;
 }
 
-.add-promotion-card:hover .add-image-text {
+.add-sponsored-card:hover .add-sponsored-text {
   color: #FC9256;
   transform: scale(1.05);
 }
 
-/* Business Image Selector Grid */
-.business-images-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.business-image-option {
-  position: relative;
-  border: 3px solid transparent;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: #f5f5f5;
-}
-
-.business-image-option img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.business-image-option:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.business-image-option:hover img {
-  transform: scale(1.1);
-}
-
-.business-image-option.selected {
-  border-color: #FC9256;
-  box-shadow: 0 0 0 2px rgba(252, 146, 86, 0.3);
-}
-
-.selected-checkmark {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: linear-gradient(135deg, #28A745 0%, #218838 100%);
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.5);
-  animation: checkmarkPop 0.3s ease;
-}
-
-@keyframes checkmarkPop {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.no-images-text {
-  color: #999;
-  font-size: 14px;
-  text-align: center;
-  padding: 20px;
-  font-style: italic;
-}
-
-.selected-preview {
-  margin-top: 24px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  border: 2px solid #E0E0E0;
-}
-
-.selected-preview h4 {
-  margin: 0 0 16px 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-  font-family: 'Poppins', sans-serif;
-}
-
-.preview-image-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.selected-preview img {
-  max-width: 100%;
-  max-height: 250px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  object-fit: contain;
-}
-
-/* MODAL STYLES */
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -508,8 +411,8 @@
   letter-spacing: 0.3px;
 }
 
-.modal-select,
-.modal-input {
+.modal-input,
+.modal-file-input {
   width: 100%;
   padding: 14px 18px;
   border: 2px solid #E0E0E0;
@@ -522,22 +425,12 @@
   background-color: #FAFAFA;
 }
 
-.modal-select:focus,
-.modal-input:focus {
+.modal-input:focus,
+.modal-file-input:focus {
   border-color: #FC9256;
   outline: none;
   background-color: white;
   box-shadow: 0 0 0 3px rgba(252, 146, 86, 0.1);
-}
-
-.modal-select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  background-size: 20px;
-  padding-right: 45px;
 }
 
 .input-hint {
@@ -561,7 +454,52 @@
   font-weight: 500;
 }
 
-/* Buttons in Modal */
+.preview-section {
+  margin-bottom: 26px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 2px solid #E0E0E0;
+}
+
+.preview-section > label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.preview-gallery {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.media-preview-box {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
+  border: 2px solid #E0E0E0;
+  border-radius: 10px;
+  padding: 12px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.media-preview-box img,
+.media-preview-box video {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
 .modal-form-actions {
   display: flex;
   justify-content: flex-end;
@@ -621,7 +559,7 @@
 /* Messages */
 .loading-message,
 .error-message,
-.no-promotions-message {
+.no-offers-message {
   text-align: center;
   padding: 40px 30px;
   font-size: 16px;
@@ -651,43 +589,43 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .promotions-content-box {
+  .sponsored-content-box {
     padding: 30px;
     margin: 0 16px 16px 16px;
   }
 
-  .promotions-cards-grid {
+  .sponsored-cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 24px;
   }
 }
 
 @media (max-width: 768px) {
-  .promotions-content-box {
+  .sponsored-content-box {
     padding: 20px;
     margin: 0 12px 12px 12px;
     border-width: 2px;
   }
 
-  .promotions-cards-grid {
+  .sponsored-cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
   }
 
-  .promotion-image-container {
+  .sponsored-image-container {
     height: 180px;
   }
 
-  .promotion-info-box {
+  .sponsored-info-box {
     padding: 16px;
   }
 
-  .promotion-business-name {
+  .sponsored-title {
     font-size: 16px;
   }
 
-  .edit-promotion-button,
-  .remove-promotion-button {
+  .edit-sponsored-button,
+  .delete-sponsored-button {
     padding: 14px 16px;
     font-size: 14px;
   }
@@ -704,28 +642,24 @@
   .modal-content form {
     padding: 20px;
   }
-
-  .business-images-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
 }
 
 @media (max-width: 480px) {
-  .promotions-content-box {
+  .sponsored-content-box {
     padding: 16px;
     margin: 0 8px 8px 8px;
   }
 
-  .promotions-cards-grid {
+  .sponsored-cards-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .promotion-image-container {
+  .sponsored-image-container {
     height: 200px;
   }
 
-  .add-image-placeholder {
+  .add-sponsored-placeholder {
     padding: 35px;
   }
 
@@ -760,12 +694,11 @@
     width: 100%;
   }
 
-  .business-images-grid {
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 8px;
+  .preview-gallery {
+    flex-direction: column;
   }
 
-  .business-image-option img {
-    height: 80px;
+  .media-preview-box {
+    min-width: 100%;
   }
 }

@@ -32,6 +32,11 @@ function SidebarComponent({ handleLogout }) {
               Promotions
             </NavLink>
           </li>
+           <li>
+            <NavLink to="/sponsored-profiles" className={({ isActive }) => (isActive ? 'active' : '')}>
+              Sponsored Profiles
+            </NavLink>
+          </li>
           <li>
             <NavLink to="/events" className={({ isActive }) => (isActive ? 'active' : '')}>
               Events

@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import BusinessViewProfile from './pages/BusinessViewProfile';
 import { FaUserCircle } from 'react-icons/fa';
 import './App.css';
+import SponsoredProfile from './pages/SponsoredProfile';
 
 const MainAppLayout = ({
   isSidebarOpen,
@@ -67,6 +68,7 @@ const MainAppLayout = ({
             <Route path="/view-bill" element={<ViewBill />} />
             <Route path="/events" element={<Events isSidebarOpen={isSidebarOpen} />} />
             <Route path="/promotions" element={<Promotions isSidebarOpen={isSidebarOpen} />} />
+            <Route path="/sponsored-profiles" element={<SponsoredProfile isSidebarOpen={isSidebarOpen} />} />
             <Route path="/pending-approvals" element={<PendingApprovals isSidebarOpen={isSidebarOpen} />} />
             <Route path="/subscriptions" element={<Subscriptions isSidebarOpen={isSidebarOpen} />} />
             <Route path="/profile" element={<Profile isSidebarOpen={isSidebarOpen} />} />

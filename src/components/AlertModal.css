@@ -1,0 +1,120 @@
+.alert-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.alert-modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-modal-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  position: relative;
+}
+
+.alert-modal-header.success { background-color: #00E096; color: white; }
+.alert-modal-header.error { background-color: #FF3B3B; color: white; }
+.alert-modal-header.warning { background-color: #FFB800; color: white; }
+.alert-modal-header.info { background-color: #0088FF; color: white; }
+
+.alert-modal-icon {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.alert-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.alert-modal-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.alert-modal-body {
+  padding: 20px;
+  color: #333;
+}
+
+.alert-modal-body p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.alert-modal-footer {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+}
+
+.alert-modal-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.alert-modal-button:hover {
+  opacity: 0.9;
+}
+
+.alert-modal-button.success { background-color: #00E096; }
+.alert-modal-button.error { background-color: #FF3B3B; }
+.alert-modal-button.warning { background-color: #FFB800; }
+.alert-modal-button.info { background-color: #0088FF; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
