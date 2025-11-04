@@ -63,8 +63,8 @@ function ViewBill() {
       <div id="invoice-container" className="invoice-box">
         <div className="invoice-header">
           <div className="company-info">
-            <h2>Evnzon Pvt. Ltd</h2>
-            <p>www.evnzon.in</p>
+            <h2>EVNZON SOLUTIONS PRIVATE LIMITED</h2>
+            {/* <p>www.evnzon.in</p> */}
             <p>support@evnzon.in</p>
             <p>+91 9876543210</p>
           </div>
@@ -72,6 +72,8 @@ function ViewBill() {
             <h3>INVOICE</h3>
             <p><b>Invoice ID:</b> {razorpayData.payment_id}</p>
             <p><b>Date:</b> {paymentDate}</p>
+            <p>GST No: <b>3AAHCE6479K1Z6</b></p>
+
           </div>
         </div>
 
