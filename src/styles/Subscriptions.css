@@ -109,6 +109,44 @@
   font-size: 18px;
 }
 
+/* Animated Total Amount Counter */
+.total-amount-counter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 1.1em;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, hsl(38, 80%, 56%) 0%);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  min-width: 150px;
+  justify-content: center;
+  border: none;
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+.total-amount-counter:hover {
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+.currency-symbol {
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.animated-amount {
+  font-size: 1.1em;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+}
+
 /* Calendar Dropdown */
 .calendar-dropdown {
   position: absolute;
@@ -447,6 +485,17 @@
   .calendar-dropdown {
     right: 0;
   }
+
+  .total-amount-counter {
+    padding: 12px 18px;
+    font-size: 1em;
+    min-width: 140px;
+  }
+
+  .animated-amount {
+    font-size: 1em;
+    min-width: 70px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -485,6 +534,22 @@
 
   .calendar-button {
     min-width: auto;
+  }
+
+  .total-amount-counter {
+    padding: 10px 14px;
+    font-size: 0.95em;
+    min-width: 130px;
+    gap: 3px;
+  }
+
+  .currency-symbol {
+    font-size: 0.9em;
+  }
+
+  .animated-amount {
+    font-size: 0.95em;
+    min-width: 60px;
   }
 
   .subscriptions-table-container {
@@ -559,6 +624,22 @@
   .calendar-button {
     font-size: 12px;
     padding: 8px 12px;
+  }
+
+  .total-amount-counter {
+    padding: 9px 12px;
+    font-size: 0.9em;
+    min-width: 120px;
+    gap: 2px;
+  }
+
+  .currency-symbol {
+    font-size: 0.85em;
+  }
+
+  .animated-amount {
+    font-size: 0.9em;
+    min-width: 50px;
   }
 
   .subscriptions-table-container {

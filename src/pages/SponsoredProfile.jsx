@@ -106,7 +106,7 @@ function SponsoredProfile({ isSidebarOpen }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!offerFormData.redirectionUrl || !offerFormData.position) {
+    if ( !offerFormData.position) {
       setError("Please fill all required fields.");
       return;
     }
@@ -258,7 +258,7 @@ function SponsoredProfile({ isSidebarOpen }) {
 
             <form onSubmit={handleSubmit}>
               <div className="modal-form-group">
-                <label htmlFor="redirectionUrl">Redirection URL*:</label>
+                <label htmlFor="redirectionUrl">Redirection URL:</label>
                 <input
                   type="url"
                   id="redirectionUrl"
@@ -267,7 +267,7 @@ function SponsoredProfile({ isSidebarOpen }) {
                   onChange={handleInputChange}
                   className="modal-input"
                   placeholder="https://example.com"
-                  required
+                  
                 />
               </div>
 
@@ -338,7 +338,7 @@ function SponsoredProfile({ isSidebarOpen }) {
                 <button
                   type="submit"
                   className="modal-submit-button"
-                  disabled={isOfferSubmitting || (!offerFormData.redirectionUrl || !offerFormData.position)}
+                  disabled={isOfferSubmitting || (!offerFormData.position)}
                 >
                   {isOfferSubmitting ? (
                     <>
