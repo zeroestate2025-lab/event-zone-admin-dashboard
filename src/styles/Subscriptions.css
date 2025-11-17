@@ -20,6 +20,41 @@
   padding: 0;
 }
 
+/* Status Tabs */
+.status-tabs {
+  display: flex;
+  gap: 0;
+  margin: 24px 32px 0 32px;
+  border-bottom: 2px solid #E0E0E0;
+}
+
+.status-tab {
+  flex: 1;
+  max-width: 200px;
+  padding: 14px 24px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.status-tab:hover {
+  color: #FC9256;
+  background-color: #FFF5F0;
+}
+
+.status-tab.active {
+  color: #FC9256;
+  border-bottom-color: #FC9256;
+  background-color: #FFF5F0;
+}
+
 /* Header Actions */
 .subscriptions-actions {
   display: flex;
@@ -74,7 +109,8 @@
   gap: 12px;
 }
 
-.calendar-filter {
+.calendar-filter,
+.month-filter {
   position: relative;
 }
 
@@ -100,13 +136,57 @@
   color: #FC9256;
 }
 
-.calendar-button {
+.calendar-button,
+.month-button {
   min-width: 180px;
   justify-content: center;
 }
 
 .filter-icon {
   font-size: 18px;
+}
+
+/* Month Filter Dropdown */
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 8px;
+  min-width: 180px;
+  max-height: 400px;
+  overflow-y: auto;
+  animation: slideDown 0.3s ease;
+}
+
+.month-option {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.month-option:last-child {
+  border-bottom: none;
+}
+
+.month-option:hover {
+  background-color: #FFF5F0;
+  color: #FC9256;
+}
+
+.month-option.selected {
+  background-color: #FC9256;
+  color: white;
+  font-weight: 600;
 }
 
 /* Animated Total Amount Counter */
@@ -383,7 +463,9 @@
   text-align: center;
 }
 
-.status-badge.paid {
+.status-badge.success,
+.status-badge.paid,
+.status-badge.completed {
   background-color: #28A745;
   color: white;
 }
@@ -474,6 +556,10 @@
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
+  .status-tabs {
+    margin: 20px 24px 0 24px;
+  }
+
   .subscriptions-actions {
     margin: 20px 24px;
   }
@@ -482,7 +568,8 @@
     margin: 0 24px 24px 24px;
   }
 
-  .calendar-dropdown {
+  .calendar-dropdown,
+  .month-dropdown {
     right: 0;
   }
 
@@ -503,6 +590,16 @@
     padding: 0;
   }
 
+  .status-tabs {
+    margin: 16px 20px 0 20px;
+  }
+
+  .status-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    max-width: 150px;
+  }
+
   .subscriptions-actions {
     flex-direction: column;
     gap: 16px;
@@ -521,25 +618,28 @@
   }
 
   .filter-buttons {
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .filter-button {
-    flex: 1;
+    width: 100%;
     justify-content: center;
     padding: 10px 16px;
     font-size: 14px;
   }
 
-  .calendar-button {
+  .calendar-button,
+  .month-button {
     min-width: auto;
+    width: 100%;
   }
 
   .total-amount-counter {
     padding: 10px 14px;
     font-size: 0.95em;
-    min-width: 130px;
+    min-width: auto;
+    width: 100%;
     gap: 3px;
   }
 
@@ -594,9 +694,23 @@
   .calendar-dropdown {
     min-width: 280px;
   }
+
+  .month-dropdown {
+    min-width: 180px;
+    right: 0;
+  }
 }
 
 @media (max-width: 480px) {
+  .status-tabs {
+    margin: 12px 16px 0 16px;
+  }
+
+  .status-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
   .subscriptions-actions {
     margin: 16px 16px;
   }
@@ -621,7 +735,8 @@
     font-size: 13px;
   }
 
-  .calendar-button {
+  .calendar-button,
+  .month-button {
     font-size: 12px;
     padding: 8px 12px;
   }
@@ -629,7 +744,7 @@
   .total-amount-counter {
     padding: 9px 12px;
     font-size: 0.9em;
-    min-width: 120px;
+    min-width: auto;
     gap: 2px;
   }
 
@@ -687,12 +802,22 @@
     right: -30px;
   }
 
+  .month-dropdown {
+    min-width: 160px;
+    right: 0;
+  }
+
   .calendar-days {
     gap: 6px;
   }
 
   .calendar-day {
     font-size: 12px;
+  }
+
+  .month-option {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }
 
@@ -712,5 +837,23 @@
 }
 
 .subscriptions-table-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+.month-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.month-dropdown::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 4px;
+}
+
+.month-dropdown::-webkit-scrollbar-thumb {
+  background: #CCCCCC;
+  border-radius: 4px;
+}
+
+.month-dropdown::-webkit-scrollbar-thumb:hover {
   background: #999999;
 }
