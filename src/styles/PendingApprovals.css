@@ -290,33 +290,172 @@
   font-weight: 600;
 }
 
-/* Status Badge */
+/* ========================================
+   SUBSCRIPTION CELL STYLING
+   ======================================== */
+
+.subscription-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 220px;
+  padding: 4px 0;
+}
+
+.subscription-plan {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  padding: 4px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.subscription-plan.legacy {
+  color: #666;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.subscription-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+  font-family: 'Poppins', sans-serif;
+}
+
+.calendar-icon {
+  color: #FF9500;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.date-label {
+  font-weight: 500;
+  color: #666;
+  min-width: 55px;
+}
+
+.date-value {
+  color: #333;
+  font-weight: 500;
+}
+
+.date-value.expiring {
+  color: #FF6B00;
+  font-weight: 700;
+  background-color: #FFF3E0;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.payment-pending-label {
+  font-size: 11px;
+  color: #FF6B00;
+  font-weight: 600;
+  padding: 4px 10px;
+  background-color: #FFF3E0;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 4px;
+  border: 1px solid #FFE0B2;
+  font-family: 'Poppins', sans-serif;
+}
+
+.legacy-note {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 2px;
+}
+
+/* ========================================
+   STATUS BADGE UPDATES
+   ======================================== */
+
 .status-badge {
   display: inline-block;
   padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 13px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.status-badge.pending-approval {
+  background: linear-gradient(135deg, #FFA726 0%, #FB8C00 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(255, 167, 38, 0.3);
 }
 
 .status-badge.pending {
-  background-color: #FFC107;
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
   color: white;
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
 }
 
 .status-badge.approved {
-  background-color: #28A745;
+  background: linear-gradient(135deg, #4CAF50 0%, #45A047 100%);
   color: white;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.status-badge.active {
+  background: linear-gradient(135deg, #4CAF50 0%, #45A047 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
 }
 
 .status-badge.rejected {
-  background-color: #DC3545;
+  background: linear-gradient(135deg, #F44336 0%, #E53935 100%);
   color: white;
+  box-shadow: 0 2px 4px rgba(244, 67, 54, 0.3);
 }
 
-/* View Link */
+.status-badge.expired {
+  background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(158, 158, 158, 0.3);
+}
+
+.status-badge.expiring {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.5);
+  }
+}
+
+/* ========================================
+   ACTION BUTTONS SECTION
+   ======================================== */
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .view-link {
   color: #FC9256;
   text-decoration: none;
@@ -324,11 +463,50 @@
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   transition: color 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
 }
 
 .view-link:hover {
   color: #FF8438;
-  text-decoration: underline;
+  background-color: #FFF5F0;
+}
+
+.delete-business-button {
+  background-color: #DC3545;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.delete-business-button:hover:not(:disabled) {
+  background-color: #C82333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+}
+
+.delete-business-button:disabled {
+  background-color: #CCC;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.spinner-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Loading and Error Messages */
@@ -365,6 +543,18 @@
   .services-dropdown-options,
   .status-dropdown-options {
     min-width: 200px;
+  }
+
+  .subscription-cell {
+    min-width: 200px;
+  }
+
+  .date-item {
+    font-size: 11px;
+  }
+
+  .date-label {
+    min-width: 50px;
   }
 }
 
@@ -413,6 +603,48 @@
   .services-dropdown-options,
   .status-dropdown-options {
     min-width: 180px;
+  }
+
+  .subscription-cell {
+    min-width: 180px;
+  }
+
+  .subscription-dates {
+    font-size: 11px;
+  }
+
+  .date-item {
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .calendar-icon {
+    font-size: 10px;
+  }
+
+  .date-label {
+    min-width: 48px;
+    font-size: 11px;
+  }
+
+  .payment-pending-label {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .status-badge {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .action-buttons {
+    gap: 8px;
+  }
+
+  .delete-business-button {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
   }
 }
 
@@ -467,6 +699,69 @@
     padding: 10px 16px;
     font-size: 13px;
   }
+
+  .subscription-cell {
+    min-width: 160px;
+    gap: 6px;
+  }
+
+  .subscription-plan {
+    font-size: 13px;
+  }
+
+  .subscription-dates {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .date-item {
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .calendar-icon {
+    font-size: 9px;
+  }
+
+  .date-label {
+    min-width: 45px;
+    font-size: 10px;
+  }
+
+  .date-value {
+    font-size: 10px;
+  }
+
+  .payment-pending-label {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
+
+  .legacy-note {
+    font-size: 10px;
+  }
+
+  .status-badge {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .view-link {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .delete-business-button {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
 }
 
 /* Scrollbar Styling */
@@ -486,4 +781,27 @@
 
 .pending-table-container::-webkit-scrollbar-thumb:hover {
   background: #999999;
+}
+
+/* Dropdown Options Scrollbar */
+.services-dropdown-options::-webkit-scrollbar,
+.status-dropdown-options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.services-dropdown-options::-webkit-scrollbar-track,
+.status-dropdown-options::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 3px;
+}
+
+.services-dropdown-options::-webkit-scrollbar-thumb,
+.status-dropdown-options::-webkit-scrollbar-thumb {
+  background: #FC9256;
+  border-radius: 3px;
+}
+
+.services-dropdown-options::-webkit-scrollbar-thumb:hover,
+.status-dropdown-options::-webkit-scrollbar-thumb:hover {
+  background: #FF8438;
 }
